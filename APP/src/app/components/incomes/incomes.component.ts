@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { income } from 'src/app/models/income';
 import { IncomeService } from 'src/app/services/income.service';
+import { BalanceService } from 'src/app/services/balance.service';
 
 @Component({
   selector: 'app-incomes',
@@ -14,23 +15,26 @@ export class IncomesComponent implements OnInit {
   userId = 1;
   year = 2019;
   month = 12;
-  total = 0;
+  totalIncomes = 0;
   showForm = false;
   isEdit = false;
   incomeIdOnEditing = '';
-
+  totalIncomesForBalance:number;
   descriptionForm: string;
   valueForm: number;
 
-  constructor(private incomeService: IncomeService, private http: HttpClient) { }
+  constructor(private incomeService: IncomeService, private balanceService: BalanceService, private http: HttpClient) { }
 
   ngOnInit() {
     this.incomeService.getIncomes(this.userId, this.year, this.month).subscribe(incomes => {
       this.incomes = incomes;
 
       incomes.forEach(income => {
-        this.total += income.value;
+        this.totalIncomes += income.value;  
       });
+
+      this.balanceService.currentIncomesMessage.subscribe(totalIncomes => this.totalIncomesForBalance = totalIncomes);
+      this.balanceService.changeMessageIncomes(this.totalIncomes);
     })
   }
 

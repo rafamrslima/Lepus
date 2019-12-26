@@ -1,1 +1,26 @@
-<p>balance works!</p>
+<table class="table table-bordered mt-5">
+    <thead>
+        <tr>
+            <th scope="col">Description</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Total Incomes</td>
+            <td>{{ totalIncomes | currency:'BRL'  }}</td>
+        </tr>
+        <tr>
+            <td>Total Expenses</td>
+            <td>{{ totalExpenses | currency:'BRL'  }}</td>
+        </tr>
+        <tr>
+            <td>Balance</td>
+            <td>{{ balance | currency:'BRL'  }}</td>
+        </tr>
+        <tr>
+            <td>Percentage</td>
+            <td>{{ percentage | number : '1.2-2' }} %</td>
+        </tr>
+    </tbody>
+</table>

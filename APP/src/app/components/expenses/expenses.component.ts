@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { BalanceService } from 'src/app/services/balance.service';
 
 @Component({
   selector: 'app-expenses',
@@ -15,16 +16,15 @@ export class ExpensesComponent implements OnInit {
   year = 2019;
   month = 12;
   status = 0;
-  total = 0;
+  totalExpenses = 0;
   showForm = false;
-
+  totalExpensesForBalance:number;
   descriptionForm: string;
-  valueForm: number;
-
+  valueForm: number; 
   isEdit = false;
   expenseIdOnEditing = '';
 
-  constructor(private expenseService: ExpenseService, private http: HttpClient) {
+  constructor(private expenseService: ExpenseService, private balanceService: BalanceService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -32,8 +32,11 @@ export class ExpensesComponent implements OnInit {
       this.expenses = expenses;
 
       expenses.forEach(expense => {
-        this.total += expense.value;
+        this.totalExpenses += expense.value; 
       });
+
+      this.balanceService.currentExpensesMessage.subscribe(totalExpenses => this.totalExpensesForBalance = totalExpenses);
+      this.balanceService.changeMessageExpenses(this.totalExpenses);
     })
   }
 

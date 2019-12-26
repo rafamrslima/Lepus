@@ -7,8 +7,6 @@ services:
     container_name: "mongodb"
     ports:
       - 27020:27017
-    networks: 
-      - production-network
       
   lepus-api: 
     image: lepus-api 
@@ -17,12 +15,6 @@ services:
     container_name: lepus-api-container
     ports:
       - 5005:80 
-    networks: 
-      - production-network
     depends_on:
       - mongo-db  
-      
-      
-networks: 
-    production-network:
-        driver: bridge
+  

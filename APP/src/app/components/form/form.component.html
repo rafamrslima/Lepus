@@ -1,0 +1,14 @@
+<form *ngIf="showForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Description</label>
+        <input type="text" class="form-control" name="descriptionForm" [(ngModel)]="descriptionForm" maxlength="25">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Value</label>
+        <input type="number" class="form-control" name="valueForm" [(ngModel)]="valueForm">
+      </div>
+    </div>
+  
+    <button type="submit" class="btn btn-success" (click)="onSave()">Save</button>
+</form>

@@ -29,7 +29,7 @@ namespace LepusAPI.Repositories
             await _incomes.InsertOneAsync(income);
         }
 
-        public async Task PutAsync(string incomeId, IncomeDto incomeDto)
+        public async Task Put(string incomeId, IncomeDto incomeDto)
         { 
             var income = await _incomes.Find(i => i.Id == incomeId).FirstOrDefaultAsync();
             income.Description = incomeDto.Description;

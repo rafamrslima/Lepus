@@ -34,7 +34,7 @@ namespace LepusAPI.Controllers
         [HttpPut("{IncomeId}")]
         public async Task<IActionResult> Put(string incomeId, [FromBody]IncomeDto IncomeDto)
         {
-            _incomesRepository.PutAsync(incomeId, IncomeDto);
+            await _incomesRepository.Put(incomeId, IncomeDto);
             return Ok();
         }
 
