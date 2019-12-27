@@ -12,9 +12,19 @@ services:
     image: lepus-api 
     build:
       context: ./API/
-    container_name: lepus-api-container
+    container_name: "lepus-api"
     ports:
       - 5005:80 
     depends_on:
-      - mongo-db  
+      - mongo-db
+
+  lepus-app: 
+    image: lepus-app 
+    build:
+      context: ./APP/
+    container_name: "lepus-app"
+    ports:
+      - 4400:4200 
+    depends_on:
+      - lepus-api 
   
