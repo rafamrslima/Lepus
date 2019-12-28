@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { BalanceService } from 'src/app/services/balance.service';
@@ -24,13 +23,13 @@ export class ExpensesComponent implements OnInit {
   isEdit = false;
   expenseIdOnEditing = '';
 
-  constructor(private expenseService: ExpenseService, 
-              private balanceService: BalanceService, 
-              private localStorageService: LocalStorageService) {
-  }
+  constructor(private expenseService: ExpenseService,
+    private balanceService: BalanceService,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.getItems();
+ 
   }
 
   getItems() {
@@ -57,7 +56,7 @@ export class ExpensesComponent implements OnInit {
       var description = this.descriptionForm;
       var value = this.valueForm;
 
-      this.expenseService.updateExpense(this.expenseIdOnEditing, description, value).subscribe(() => {this.showForm = false; this.getItems()});
+      this.expenseService.updateExpense(this.expenseIdOnEditing, description, value).subscribe(() => { this.showForm = false; this.getItems() });
     } else {
 
       var expense = {
@@ -70,9 +69,9 @@ export class ExpensesComponent implements OnInit {
       };
 
       this.expenses = null;
-      this.expenseService.saveExpense(expense).subscribe(() => {this.showForm = false; this.getItems()});
+      this.expenseService.saveExpense(expense).subscribe(() => { this.showForm = false; this.getItems() });
     }
- 
+
   }
 
   onEdit(id: string) {

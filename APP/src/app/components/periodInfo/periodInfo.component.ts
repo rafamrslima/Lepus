@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
   styleUrls: ['./periodInfo.component.css']
 })
 export class PeriodInfoComponent implements OnInit {
+
+  @Output() periodChanged = new EventEmitter<string>();
 
   constructor(private localStorageService: LocalStorageService) { }
 
@@ -17,11 +19,12 @@ export class PeriodInfoComponent implements OnInit {
 
   onChangeYear(year: string) {
     this.localStorageService.setYear(year);
+    this.periodChanged.emit();
   }
 
   onChangeMonth(month: string) {
     this.localStorageService.setMonth(month);
+    this.periodChanged.emit();
   }
-
-
+ 
 }

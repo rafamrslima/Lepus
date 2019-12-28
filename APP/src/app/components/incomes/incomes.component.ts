@@ -1,10 +1,9 @@
 import { Component, OnInit, Output, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { income } from 'src/app/models/income';
+ import { income } from 'src/app/models/income';
 import { IncomeService } from 'src/app/services/income.service';
 import { BalanceService } from 'src/app/services/balance.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-
+ 
 @Component({
   selector: 'app-incomes',
   templateUrl: './incomes.component.html',
@@ -28,10 +27,13 @@ export class IncomesComponent implements OnInit {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.getItems();
+    this.getItems(); 
   }
 
   getItems() {
+  
+    this.getItemsFromLocalStorage();
+
     this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       this.incomes = incomes;
 
@@ -41,7 +43,13 @@ export class IncomesComponent implements OnInit {
       });
 
       this.balanceService.changeMessageIncomes(this.totalIncomes);
-    })
+     })
+  }
+
+  getItemsFromLocalStorage(){
+    this.userName = this.localStorageService.getUserName();
+    this.year = this.localStorageService.getYear();
+    this.month = this.localStorageService.getMonth();
   }
 
   onAddNew() {

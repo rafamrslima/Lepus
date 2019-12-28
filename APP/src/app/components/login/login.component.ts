@@ -9,7 +9,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class LoginComponent implements OnInit {
 
   userName: string;
-  @Output() messageEvent = new EventEmitter<string>();
+  @Output() loggedIn = new EventEmitter<string>();
  
   constructor(private localStorageService: LocalStorageService) { }
 
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   showFuncs(condition){
-    this.messageEvent.emit(condition)
+    this.loggedIn.emit(condition);
   }
 
 }
