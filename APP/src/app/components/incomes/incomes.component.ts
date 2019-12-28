@@ -1,8 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { income } from 'src/app/models/income';
 import { IncomeService } from 'src/app/services/income.service';
 import { BalanceService } from 'src/app/services/balance.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-incomes',
@@ -12,28 +13,33 @@ import { BalanceService } from 'src/app/services/balance.service';
 export class IncomesComponent implements OnInit {
 
   incomes: income[];
-  userName = localStorage.getItem('userName');
-  year = localStorage.getItem('year');
-  month = localStorage.getItem('month');
+  userName = this.localStorageService.getUserName();
+  year = this.localStorageService.getYear();
+  month = this.localStorageService.getMonth();
   totalIncomes = 0;
   showForm = false;
   isEdit = false;
   incomeIdOnEditing = '';
-  totalIncomesForBalance:number;
   descriptionForm: string;
   valueForm: number;
 
-  constructor(private incomeService: IncomeService, private balanceService: BalanceService, private http: HttpClient) { }
+  constructor(private incomeService: IncomeService,
+    private balanceService: BalanceService,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
+    this.getItems();
+  }
+
+  getItems() {
     this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       this.incomes = incomes;
 
+      this.totalIncomes = 0;
       incomes.forEach(income => {
-        this.totalIncomes += income.value;  
+        this.totalIncomes += income.value;
       });
 
-      this.balanceService.currentIncomesMessage.subscribe(totalIncomes => this.totalIncomesForBalance = totalIncomes);
       this.balanceService.changeMessageIncomes(this.totalIncomes);
     })
   }
@@ -49,7 +55,7 @@ export class IncomesComponent implements OnInit {
       var description = this.descriptionForm;
       var value = this.valueForm;
 
-      this.incomeService.updateIncome(this.incomeIdOnEditing, description, value).subscribe(incomes => this.showForm = false);
+      this.incomeService.updateIncome(this.incomeIdOnEditing, description, value).subscribe(() => { this.showForm = false; this.getItems() });
 
     } else {
 
@@ -61,10 +67,10 @@ export class IncomesComponent implements OnInit {
         "month": parseInt(this.month)
       }
 
-      this.incomeService.saveIncome(income).subscribe(s => this.showForm = false);
+      this.incomeService.saveIncome(income).subscribe(() => { this.showForm = false; this.getItems() });
 
     }
- 
+
   }
 
   onEdit(id: string) {
@@ -80,8 +86,8 @@ export class IncomesComponent implements OnInit {
 
   }
 
-  onDelete(id){
-    this.incomeService.deleteIncome(id).subscribe();
+  onDelete(id: string) {
+    this.incomeService.deleteIncome(id).subscribe(() => this.getItems());
   }
 
 }

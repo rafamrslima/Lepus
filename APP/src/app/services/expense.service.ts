@@ -14,7 +14,7 @@ export class ExpenseService {
 
     expensesUrl: string = 'http://localhost:5005/api/Expenses';
 
-    getExpense(userName: string, year: number, month: number): Observable<expense[]> {
+    getExpenses(userName: string, year: number, month: number): Observable<expense[]> {
         return this.http.get<expense[]>(`${this.expensesUrl}/${userName}/${year}/${month}`);
     }
 

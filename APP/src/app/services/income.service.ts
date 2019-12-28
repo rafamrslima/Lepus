@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { income } from '../models/income';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class IncomeService {
   }
 
   incomesUrl: string = 'http://localhost:5005/api/Incomes';
- 
-  getIncomes(userName: string, year: number, month: number): Observable<income[]> { 
+
+  getIncomes(userName: string, year: number, month: number): Observable<income[]> {
     return this.http.get<income[]>(`${this.incomesUrl}/${userName}/${year}/${month}`);
   }
 

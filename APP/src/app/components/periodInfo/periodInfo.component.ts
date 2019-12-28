@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-periodInfo',
@@ -7,19 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PeriodInfoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.onChangeYear(new Date().getFullYear().toString());
     this.onChangeMonth((new Date().getMonth() + 1 ).toString());
   }
 
-  onChangeYear($event) {
-    localStorage.setItem('year', $event);
+  onChangeYear(year: string) {
+    this.localStorageService.setYear(year);
   }
 
-  onChangeMonth($event) {
-    localStorage.setItem('month', $event);
+  onChangeMonth(month: string) {
+    this.localStorageService.setMonth(month);
   }
 
 

@@ -16,12 +16,14 @@ export class BalanceComponent implements OnInit {
   constructor(private balanceService: BalanceService) { }
 
   ngOnInit() {
-    this.balanceService.currentIncomesMessage.subscribe(totalIncomes => this.totalIncomes = totalIncomes) ;
-    this.balanceService.currentExpensesMessage.subscribe(totalExpenses => this.totalExpenses = totalExpenses) ;
-
-    this.balance = this.totalIncomes - this.totalExpenses; 
-    this.percentage = (this.totalExpenses * 100) / this.totalIncomes;
-     
+    this.balanceService.currentIncomesMessage.subscribe(totalIncomes => this.totalIncomes = totalIncomes);
+    
+    this.balanceService.currentExpensesMessage.subscribe(totalExpenses => {
+      this.totalExpenses = totalExpenses;
+      this.balance = this.totalIncomes - this.totalExpenses;
+      this.percentage = (this.totalExpenses * 100) / this.totalIncomes;
+    });
+    
   }
 
 }

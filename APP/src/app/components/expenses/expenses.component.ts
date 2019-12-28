@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { BalanceService } from 'src/app/services/balance.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-expenses',
@@ -12,30 +13,36 @@ import { BalanceService } from 'src/app/services/balance.service';
 export class ExpensesComponent implements OnInit {
 
   expenses: expense[];
-  userName = localStorage.getItem('userName');
-  year = localStorage.getItem('year');
-  month = localStorage.getItem('month');
+  userName = this.localStorageService.getUserName();
+  year = this.localStorageService.getYear();
+  month = this.localStorageService.getMonth();
   status = 0;
   totalExpenses = 0;
   showForm = false;
-  totalExpensesForBalance:number;
   descriptionForm: string;
-  valueForm: number; 
+  valueForm: number;
   isEdit = false;
   expenseIdOnEditing = '';
 
-  constructor(private expenseService: ExpenseService, private balanceService: BalanceService, private http: HttpClient) {
+  constructor(private expenseService: ExpenseService, 
+              private balanceService: BalanceService, 
+              private localStorageService: LocalStorageService) {
   }
 
   ngOnInit() {
-    this.expenseService.getExpense(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
+    this.getItems();
+  }
+
+  getItems() {
+    this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
       this.expenses = expenses;
 
+      this.totalExpenses = 0;
       expenses.forEach(expense => {
-        this.totalExpenses += expense.value; 
+        this.totalExpenses += expense.value;
       });
 
-      this.balanceService.currentExpensesMessage.subscribe(totalExpenses => this.totalExpensesForBalance = totalExpenses);
+      //this.balanceService.currentExpensesMessage.subscribe(totalExpenses => this.totalExpensesForBalance = totalExpenses);
       this.balanceService.changeMessageExpenses(this.totalExpenses);
     })
   }
@@ -50,7 +57,7 @@ export class ExpensesComponent implements OnInit {
       var description = this.descriptionForm;
       var value = this.valueForm;
 
-      this.expenseService.updateExpense(this.expenseIdOnEditing, description, value).subscribe(incomes => this.showForm = false);
+      this.expenseService.updateExpense(this.expenseIdOnEditing, description, value).subscribe(() => {this.showForm = false; this.getItems()});
     } else {
 
       var expense = {
@@ -62,11 +69,13 @@ export class ExpensesComponent implements OnInit {
         "month": parseInt(this.month)
       };
 
-      this.expenseService.saveExpense(expense).subscribe(expenses => this.showForm = false);
+      this.expenses = null;
+      this.expenseService.saveExpense(expense).subscribe(() => {this.showForm = false; this.getItems()});
     }
+ 
   }
 
-  onEdit(id) {
+  onEdit(id: string) {
     this.expenses.forEach(expense => {
       if (expense.id == id) {
         this.descriptionForm = expense.description;
@@ -79,7 +88,7 @@ export class ExpensesComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    this.expenseService.deleteExpense(id).subscribe();
+    this.expenseService.deleteExpense(id).subscribe(() => this.getItems());
   }
 
 }
