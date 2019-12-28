@@ -14,11 +14,11 @@ export class IncomeService {
 
   incomesUrl: string = 'http://localhost:5005/api/Incomes';
  
-  getIncomes(userId: number, year: number, month: number): Observable<income[]> {
-    return this.http.get<income[]>(`${this.incomesUrl}/${userId}/${year}/${month}`);
+  getIncomes(userName: string, year: number, month: number): Observable<income[]> { 
+    return this.http.get<income[]>(`${this.incomesUrl}/${userName}/${year}/${month}`);
   }
 
-  saveIncome(income: { "description": string; "value": number; "userId": number; "year": number; "month": number; }) {
+  saveIncome(income: { "description": string; "value": number; "userName": string; "year": number; "month": number; }) {
     return this.http.post(this.incomesUrl, income);
   }
 

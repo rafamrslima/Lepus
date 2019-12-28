@@ -12,9 +12,9 @@ import { BalanceService } from 'src/app/services/balance.service';
 export class ExpensesComponent implements OnInit {
 
   expenses: expense[];
-  userId = 1;
-  year = 2019;
-  month = 12;
+  userName = localStorage.getItem('userName');
+  year = localStorage.getItem('year');
+  month = localStorage.getItem('month');
   status = 0;
   totalExpenses = 0;
   showForm = false;
@@ -28,7 +28,7 @@ export class ExpensesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.expenseService.getExpense(this.userId, this.year, this.month).subscribe(expenses => {
+    this.expenseService.getExpense(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
       this.expenses = expenses;
 
       expenses.forEach(expense => {
@@ -56,10 +56,10 @@ export class ExpensesComponent implements OnInit {
       var expense = {
         "description": this.descriptionForm,
         "value": this.valueForm,
-        "userId": this.userId,
+        "userName": this.userName,
         "status": this.status,
-        "year": this.year,
-        "month": this.month
+        "year": parseInt(this.year),
+        "month": parseInt(this.month)
       };
 
       this.expenseService.saveExpense(expense).subscribe(expenses => this.showForm = false);

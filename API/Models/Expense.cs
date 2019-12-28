@@ -28,6 +28,6 @@ namespace LepusAPI.Models
         public int Year { get; set; } 
 
         [Required]
-        public int UserId { get; set; }
+        public string userName { get; set; }
     }
 }

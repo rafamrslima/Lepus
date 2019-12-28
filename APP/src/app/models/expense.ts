@@ -5,5 +5,5 @@ export interface expense {
     status: number,
     month: number,
     year:number,
-    userId: number
+    userName: number
 }

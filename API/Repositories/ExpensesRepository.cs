@@ -14,9 +14,9 @@ namespace LepusAPI.Repositories
         {
             _expenses = mongoDbContext.Expenses;
         }
-        public async Task<List<Expense>> Get(int userId, int year, int month)
+        public async Task<List<Expense>> Get(string userName, int year, int month)
         {
-            return await _expenses.Find(x => x.UserId == userId
+            return await _expenses.Find(x => x.userName == userName
                                           && x.Year == year 
                                           && x.Month == month).ToListAsync();
         }

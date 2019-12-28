@@ -11,16 +11,16 @@ namespace LepusAPI.Controllers
     [Route("api/[controller]")]
     public class ExpensesController : ControllerBase
     {
-        ExpensesRepository _expensesRepository;
+        readonly ExpensesRepository _expensesRepository;
         public ExpensesController(ExpensesRepository expensesRepository)
         {
             _expensesRepository = expensesRepository;
         }
-
-        [HttpGet("{userId}/{year}/{month}")]
-        public async Task<IEnumerable<Expense>> Get(int userId, int year, int month)
+ 
+        [HttpGet("{userName}/{year}/{month}")]
+        public async Task<IEnumerable<Expense>> Get(string userName, int year, int month)
         {
-            return await _expensesRepository.Get(userId, year, month);
+            return await _expensesRepository.Get(userName, year, month);
         }
 
         [HttpPost]

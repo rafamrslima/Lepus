@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'LepusAPP';
+ 
+  showFuncs = false;
+  userName = '';
+
+  showApp($event) {
+    this.showFuncs = $event
+    this.userName = localStorage.getItem('beautyUserName');
+  }
+
 }

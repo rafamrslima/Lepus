@@ -1,22 +1,24 @@
 <div class="row mt-4" *ngIf="!showForm">
   <div class="col-md-11"></div>
   <div class="col-md-1">
-    <button class="btn btn-success" (click)="onAddNew()">Add</button>
+    <button class="btn btn-info" (click)="onAddNew()">Add</button>
   </div>
 </div>
 <form *ngIf="showForm">
-  <div class="form-row">
-    <div class="form-group col-md-6">
+  <div class="form-row align-items-end">
+    <div class="form-group col-md-8">
       <label>Description</label>
       <input type="text" class="form-control" name="descriptionForm" [(ngModel)]="descriptionForm" maxlength="25">
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
       <label>Value</label>
       <input type="number" class="form-control" name="valueForm" [(ngModel)]="valueForm">
     </div>
-  </div>
+    <div class="form-group col-md-2">
+      <button type="submit" class="btn btn-success" (click)="onSave()">Save</button>
+    </div> 
+  </div> 
 
-  <button type="submit" class="btn btn-success" (click)="onSave()">Save</button>
 </form>
 
 <table class="table mt-5">
@@ -24,7 +26,6 @@
     <tr>
       <th scope="col">Description</th>
       <th scope="col">Value</th>
-      <th scope="col">Status</th>
       <th scope="col">#</th>
       <th scope="col">#</th>
     </tr>
@@ -33,7 +34,6 @@
     <tr *ngFor="let expense of expenses">
       <td scope="row">{{ expense.description }}</td>
       <td>{{ expense.value | currency:'BRL' }}</td>
-      <td>{{ expense.status }}</td>
       <td> <button class="btn btn-warning" (click)="onEdit(expense.id)">Edit</button> </td>
       <td> <button class="btn btn-danger" (click)="onDelete(expense.id)">Delete</button> </td>
     </tr>

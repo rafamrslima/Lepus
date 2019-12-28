@@ -14,6 +14,8 @@ import { IncomesComponent } from './components/incomes/incomes.component';
 import { appRoutes } from './routes';
 import { BalanceComponent } from './components/balance/balance.component';
 import { FormComponent } from './components/form/form.component';
+import { LoginComponent } from './components/login/login.component';
+import { PeriodInfoComponent } from './components/periodInfo/periodInfo.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { FormComponent } from './components/form/form.component';
     IncomesComponent,
     BalanceComponent,
     FormComponent,
+    LoginComponent,
+    PeriodInfoComponent,
   ],
   imports: [
     BrowserModule,

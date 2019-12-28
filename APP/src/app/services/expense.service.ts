@@ -14,11 +14,11 @@ export class ExpenseService {
 
     expensesUrl: string = 'http://localhost:5005/api/Expenses';
 
-    getExpense(userId: number, year: number, month: number): Observable<expense[]> {
-        return this.http.get<expense[]>(`${this.expensesUrl}/${userId}/${year}/${month}`);
+    getExpense(userName: string, year: number, month: number): Observable<expense[]> {
+        return this.http.get<expense[]>(`${this.expensesUrl}/${userName}/${year}/${month}`);
     }
 
-    saveExpense(expense: { "description": string; "value": number; "userId": number; "status": number; "year": number; "month": number; }) {
+    saveExpense(expense: { "description": string; "value": number; "userName": string; "status": number; "year": number; "month": number; }) {
         console.log(expense);
         return this.http.post(this.expensesUrl, expense);
     }

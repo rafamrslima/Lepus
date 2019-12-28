@@ -4,5 +4,5 @@ export interface income {
     value: number,
     month: number,
     year:number,
-    userId: number
+    userName: number
 }

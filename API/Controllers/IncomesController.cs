@@ -18,10 +18,10 @@ namespace LepusAPI.Controllers
             _incomesRepository = incomesRepository;
         }
 
-        [HttpGet("{userId}/{year}/{month}")]
-        public async Task<IEnumerable<Income>> Get(int userId, int year, int month)
+        [HttpGet("{userName}/{year}/{month}")]
+        public async Task<IEnumerable<Income>> Get(string userName, int year, int month)
         {
-            return await _incomesRepository.Get(userId, year, month);
+            return await _incomesRepository.Get(userName, year, month);
         }
 
         [HttpPost]

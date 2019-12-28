@@ -12,9 +12,9 @@ import { BalanceService } from 'src/app/services/balance.service';
 export class IncomesComponent implements OnInit {
 
   incomes: income[];
-  userId = 1;
-  year = 2019;
-  month = 12;
+  userName = localStorage.getItem('userName');
+  year = localStorage.getItem('year');
+  month = localStorage.getItem('month');
   totalIncomes = 0;
   showForm = false;
   isEdit = false;
@@ -26,7 +26,7 @@ export class IncomesComponent implements OnInit {
   constructor(private incomeService: IncomeService, private balanceService: BalanceService, private http: HttpClient) { }
 
   ngOnInit() {
-    this.incomeService.getIncomes(this.userId, this.year, this.month).subscribe(incomes => {
+    this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       this.incomes = incomes;
 
       incomes.forEach(income => {
@@ -56,9 +56,9 @@ export class IncomesComponent implements OnInit {
       var income = {
         "description": this.descriptionForm,
         "value": this.valueForm,
-        "userId": this.userId,
-        "year": this.year,
-        "month": this.month
+        "userName": this.userName,
+        "year": parseInt(this.year),
+        "month": parseInt(this.month)
       }
 
       this.incomeService.saveIncome(income).subscribe(s => this.showForm = false);
