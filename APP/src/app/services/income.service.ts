@@ -12,7 +12,7 @@ export class IncomeService {
   constructor(private http: HttpClient) {
   }
 
-  incomesUrl: string = 'http://localhost:5005/api/Incomes';
+  incomesUrl: string = '/api/Incomes';
 
   getIncomes(userName: string, year: number, month: number): Observable<income[]> {
     return this.http.get<income[]>(`${this.incomesUrl}/${userName}/${year}/${month}`);
