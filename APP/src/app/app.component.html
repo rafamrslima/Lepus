@@ -1,11 +1,11 @@
 <div class="container mt-5">
+
+    <app-login (loggedIn)="loggedIn()" *ngIf="!showApp"></app-login>
+
+    <div *ngIf="showApp">
+
+        <app-user (loggedOut)="loggedOut()"></app-user>
  
-    <app-login (loggedIn)="showApp($event)" *ngIf="!showFuncs"></app-login>
-
-    <div *ngIf="showFuncs">
-
-        <h4 class="mb-3">Welcome {{ beautiUserName }}</h4>
-
         <app-periodInfo (periodChanged)="updatePeriod()"></app-periodInfo>
 
         <app-nav></app-nav>

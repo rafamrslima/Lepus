@@ -16,6 +16,7 @@ import { BalanceComponent } from './components/balance/balance.component';
 import { FormComponent } from './components/form/form.component';
 import { LoginComponent } from './components/login/login.component';
 import { PeriodInfoComponent } from './components/periodInfo/periodInfo.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PeriodInfoComponent } from './components/periodInfo/periodInfo.componen
     FormComponent,
     LoginComponent,
     PeriodInfoComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

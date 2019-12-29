@@ -15,12 +15,20 @@ export class LocalStorageService {
     localStorage.setItem('userName', userName);
   }
 
+  removeUserName(){
+    localStorage.removeItem('userName'); 
+  }
+
   getBeautyUserName() {
     return localStorage.getItem('beautyUserName');
   }
 
   setBeautyUserName(beautyUserName: string) {
     localStorage.setItem('beautyUserName', beautyUserName);
+  }
+
+  removeBeautyUserName(){
+    localStorage.removeItem('beautyUserName'); 
   }
 
   getYear() {
@@ -31,11 +39,19 @@ export class LocalStorageService {
     localStorage.setItem('year', year);
   }
 
+  removeYear(){
+    localStorage.removeItem('year'); 
+  }
+
   getMonth() {
     return localStorage.getItem('month');
   }
 
   setMonth(month: string) {
     localStorage.setItem('month', month);
+  }
+
+  removeMonth(){
+    localStorage.removeItem('month'); 
   }
 }

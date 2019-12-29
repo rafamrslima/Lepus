@@ -9,8 +9,9 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class LoginComponent implements OnInit {
 
   userName: string;
-  @Output() loggedIn = new EventEmitter<string>();
- 
+
+  @Output() loggedIn = new EventEmitter();
+
   constructor(private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
@@ -19,19 +20,19 @@ export class LoginComponent implements OnInit {
 
     if (userName != null) {
       this.userName = userName;
-      this.showFuncs(true);
-    } 
+      this.login();
+    }
   }
 
-  onSave() { 
+  onGo() {
     this.localStorageService.setBeautyUserName(this.userName);
     this.localStorageService.setUserName(this.userName.toLowerCase().replace(/\s/g, ''));
-    
-    this.showFuncs(true);
+
+    this.login();
   }
 
-  showFuncs(condition){
-    this.loggedIn.emit(condition);
+  login() {
+    this.loggedIn.emit();
   }
 
 }

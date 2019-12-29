@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   userName: string;
   year: string;
   month: string;
+  showApp: boolean;
+  beautiUserName:string;
 
   ngOnInit() {
   }
@@ -27,18 +29,19 @@ export class AppComponent implements OnInit {
     private router: Router) { }
 
   title = 'LepusAPP';
-
-  showFuncs = false;
-  beautiUserName = '';
-
-  showApp($event) {
+ 
+  loggedIn() {
 
     this.initializeInstances();
 
     this.getIncomes();
     this.getExpenses();
 
-    this.showFuncs = $event
+    this.showApp = true;
+  }
+
+  loggedOut(){
+    this.showApp = false;
   }
 
   updatePeriod() {
