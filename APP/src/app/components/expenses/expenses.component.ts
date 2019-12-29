@@ -12,42 +12,45 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class ExpensesComponent implements OnInit {
 
   expenses: expense[];
-  userName = this.localStorageService.getUserName();
-  year = this.localStorageService.getYear();
-  month = this.localStorageService.getMonth();
-  status = 0;
-  totalExpenses = 0;
-  showForm = false;
+  userName: string;
+  year:string;
+  month: string;
+  status: number;
+  totalExpenses: number
+  showForm :boolean;
   descriptionForm: string;
   valueForm: number;
-  isEdit = false;
-  expenseIdOnEditing = '';
+  isEdit:boolean;
+  expenseIdOnEditing: string;
 
   constructor(private expenseService: ExpenseService,
     private balanceService: BalanceService,
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.getItems();
- 
+    this.getItems(); 
   }
 
   getItems() {
+
+    this.getValuesFromLocalStorage();
+
     this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
       this.expenses = expenses;
-
-      this.totalExpenses = 0;
-      expenses.forEach(expense => {
-        this.totalExpenses += expense.value;
-      });
-
-      //this.balanceService.currentExpensesMessage.subscribe(totalExpenses => this.totalExpensesForBalance = totalExpenses);
+      this.totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageExpenses(this.totalExpenses);
     })
   }
 
+  getValuesFromLocalStorage() {
+    this.userName = this.localStorageService.getUserName();
+    this.year = this.localStorageService.getYear();
+    this.month = this.localStorageService.getMonth();
+  }
+
   onAddNew() {
     this.showForm = !this.showForm;
+    this.isEdit = false;
   }
 
   onSave() {
@@ -68,7 +71,8 @@ export class ExpensesComponent implements OnInit {
         "month": parseInt(this.month)
       };
 
-      this.expenses = null;
+      this.descriptionForm = '';
+      this.valueForm = 0;
       this.expenseService.saveExpense(expense).subscribe(() => { this.showForm = false; this.getItems() });
     }
 

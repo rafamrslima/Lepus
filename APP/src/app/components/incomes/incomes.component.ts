@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, Input } from '@angular/core';
- import { income } from 'src/app/models/income';
+import { income } from 'src/app/models/income';
 import { IncomeService } from 'src/app/services/income.service';
 import { BalanceService } from 'src/app/services/balance.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
- 
+
 @Component({
   selector: 'app-incomes',
   templateUrl: './incomes.component.html',
@@ -12,13 +12,13 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class IncomesComponent implements OnInit {
 
   incomes: income[];
-  userName = this.localStorageService.getUserName();
-  year = this.localStorageService.getYear();
-  month = this.localStorageService.getMonth();
-  totalIncomes = 0;
-  showForm = false;
-  isEdit = false;
-  incomeIdOnEditing = '';
+  userName: string;
+  year: string;
+  month: string;
+  totalIncomes: number;
+  showForm: boolean;
+  isEdit: boolean;
+  incomeIdOnEditing: string;
   descriptionForm: string;
   valueForm: number;
 
@@ -27,26 +27,21 @@ export class IncomesComponent implements OnInit {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.getItems(); 
+    this.getItems();
   }
 
   getItems() {
-  
-    this.getItemsFromLocalStorage();
+
+    this.getValuesFromLocalStorage();
 
     this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       this.incomes = incomes;
-
-      this.totalIncomes = 0;
-      incomes.forEach(income => {
-        this.totalIncomes += income.value;
-      });
-
+      this.totalIncomes = incomes.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageIncomes(this.totalIncomes);
-     })
+    })
   }
 
-  getItemsFromLocalStorage(){
+  getValuesFromLocalStorage() {
     this.userName = this.localStorageService.getUserName();
     this.year = this.localStorageService.getYear();
     this.month = this.localStorageService.getMonth();
@@ -75,10 +70,11 @@ export class IncomesComponent implements OnInit {
         "month": parseInt(this.month)
       }
 
+      this.valueForm = 0;
+      this.descriptionForm = '';
       this.incomeService.saveIncome(income).subscribe(() => { this.showForm = false; this.getItems() });
 
     }
-
   }
 
   onEdit(id: string) {

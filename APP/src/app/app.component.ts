@@ -57,11 +57,7 @@ export class AppComponent implements OnInit {
   getIncomes() {
     this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
 
-      var totalIncomes = 0;
-      incomes.forEach(income => {
-        totalIncomes += income.value;
-      });
-
+      var totalIncomes = incomes.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageIncomes(totalIncomes);
     })
   }
@@ -69,11 +65,7 @@ export class AppComponent implements OnInit {
   getExpenses() {
     this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
 
-      var totalExpenses = 0;
-      expenses.forEach(expense => {
-        totalExpenses += expense.value;
-      });
-
+      var totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0); 
       this.balanceService.changeMessageExpenses(totalExpenses);
     })
   }
