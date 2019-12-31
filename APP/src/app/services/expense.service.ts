@@ -12,7 +12,7 @@ export class ExpenseService {
     constructor(private http: HttpClient) {
     }
 
-    expensesUrl: string = '/api/Expenses';
+    expensesUrl: string = 'http://localhost:5005/api/Expenses';
 
     getExpenses(userName: string, year: number, month: number): Observable<expense[]> {
         return this.http.get<expense[]>(`${this.expensesUrl}/${userName}/${year}/${month}`);

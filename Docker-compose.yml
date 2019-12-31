@@ -9,33 +9,22 @@ services:
       - 27017
       
   lepus-api: 
-    image: lepus-api 
+    image: lepus-api:dev
     build:
       context: ./API/
-    container_name: "lepus-api"
+    container_name: "lepus-api" 
     ports:
-      - 80 
+      - 5005:80 
     depends_on:
       - mongo-db
 
   lepus-app: 
-    image: lepus-app 
+    image: lepus-app:dev
     build:
       context: ./APP/
     container_name: "lepus-app"
     ports:
-      - 4200 
+      - 4200:4200 
     depends_on:
       - lepus-api 
-
-  reverse-proxy:
-    image: nginx:latest
-    build:
-      context: ./ReverseProxy/
-    ports:
-    - 9090:80
-    - 9443:443
-    depends_on:
-    - lepus-api
-    - lepus-app
-  
+ 
