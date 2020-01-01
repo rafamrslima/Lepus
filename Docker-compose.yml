@@ -8,11 +8,11 @@ services:
     ports:
       - 27020:27017
       
-  lepus-api-nova: 
-    image: lepus-api-nova:dev
+  lepus-api: 
+    image: lepus-api:dev
     build:
-      context: ./API/API/Lepus/Lepus.API/
-    container_name: "lepus-api-nova" 
+      context: ./API/Lepus.API
+    container_name: "lepus-api" 
     ports:
       - 5005:80 
     depends_on:
@@ -26,5 +26,5 @@ services:
     ports:
       - 4200:4200 
     depends_on:
-      - lepus-api-nova 
+      - lepus-api 
  
