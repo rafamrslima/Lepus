@@ -54,22 +54,20 @@ export class IncomesComponent implements OnInit {
 
   onSave() {
 
-    if (this.isEdit) {
-      var description = this.descriptionForm;
-      var value = this.valueForm;
+    var income = {
+      "description": this.descriptionForm,
+      "value": this.valueForm,
+      "userName": this.userName,
+      "year": parseInt(this.year),
+      "month": parseInt(this.month)
+    }
 
-      this.incomeService.updateIncome(this.incomeIdOnEditing, description, value).subscribe(() => { this.showForm = false; this.getItems() });
+    if (this.isEdit) {
+       
+      this.incomeService.updateIncome(this.incomeIdOnEditing, income).subscribe(() => { this.showForm = false; this.getItems() });
 
     } else {
-
-      var income = {
-        "description": this.descriptionForm,
-        "value": this.valueForm,
-        "userName": this.userName,
-        "year": parseInt(this.year),
-        "month": parseInt(this.month)
-      }
-
+ 
       this.valueForm = 0;
       this.descriptionForm = '';
       this.incomeService.saveIncome(income).subscribe(() => { this.showForm = false; this.getItems() });

@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5A8C63BB-81C7-4B96-ACBF-985732AD80C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lepus.API", "Lepus.API\Lepus.API.csproj", "{A108563A-72AE-41F0-A401-D2BCA645B8AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A108563A-72AE-41F0-A401-D2BCA645B8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A108563A-72AE-41F0-A401-D2BCA645B8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A108563A-72AE-41F0-A401-D2BCA645B8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A108563A-72AE-41F0-A401-D2BCA645B8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A108563A-72AE-41F0-A401-D2BCA645B8AB} = {5A8C63BB-81C7-4B96-ACBF-985732AD80C2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54FA7ED4-5F1A-42F3-8A59-2FAEC35731A5}
+	EndGlobalSection
+EndGlobal

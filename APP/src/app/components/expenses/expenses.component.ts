@@ -55,22 +55,21 @@ export class ExpensesComponent implements OnInit {
 
   onSave() {
 
+    var expense = {
+      "description": this.descriptionForm,
+      "value": this.valueForm,
+      "userName": this.userName,
+      "year": parseInt(this.year),
+      "month": parseInt(this.month)
+    };
+
     if (this.isEdit) {
       var description = this.descriptionForm;
       var value = this.valueForm;
 
-      this.expenseService.updateExpense(this.expenseIdOnEditing, description, value).subscribe(() => { this.showForm = false; this.getItems() });
+      this.expenseService.updateExpense(this.expenseIdOnEditing, expense).subscribe(() => { this.showForm = false; this.getItems() });
     } else {
-
-      var expense = {
-        "description": this.descriptionForm,
-        "value": this.valueForm,
-        "userName": this.userName,
-        "status": this.status,
-        "year": parseInt(this.year),
-        "month": parseInt(this.month)
-      };
-
+ 
       this.descriptionForm = '';
       this.valueForm = 0;
       this.expenseService.saveExpense(expense).subscribe(() => { this.showForm = false; this.getItems() });

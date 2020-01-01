@@ -22,8 +22,8 @@ export class IncomeService {
     return this.http.post(this.incomesUrl, income);
   }
 
-  updateIncome(incomeIdOnEditing: string, description: string, value: number) {
-    return this.http.put(`${this.incomesUrl}/${incomeIdOnEditing}`, { "description": description, "value": value });
+  updateIncome(incomeIdOnEditing: string, incomeUpdate: object) {
+    return this.http.put(`${this.incomesUrl}/${incomeIdOnEditing}`, incomeUpdate);
   }
 
   deleteIncome(id: string) {

@@ -18,13 +18,13 @@ export class ExpenseService {
         return this.http.get<expense[]>(`${this.expensesUrl}/${userName}/${year}/${month}`);
     }
 
-    saveExpense(expense: { "description": string; "value": number; "userName": string; "status": number; "year": number; "month": number; }) {
+    saveExpense(expense: { "description": string; "value": number; "userName": string; "year": number; "month": number; }) {
         console.log(expense);
         return this.http.post(this.expensesUrl, expense);
     }
 
-    updateExpense(expenseIdOnEditing: string, description: string, value: number) {
-        return this.http.put(`${this.expensesUrl}/${expenseIdOnEditing}`, { "description": description, "value": value });
+    updateExpense(expenseIdOnEditing: string, expense: object) {
+        return this.http.put(`${this.expensesUrl}/${expenseIdOnEditing}`, expense);
     }
 
     deleteExpense(id: string) {

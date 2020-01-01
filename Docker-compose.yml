@@ -6,13 +6,13 @@ services:
     image: mongo
     container_name: "mongodb"
     ports:
-      - 27017
+      - 27020:27017
       
-  lepus-api: 
-    image: lepus-api:dev
+  lepus-api-nova: 
+    image: lepus-api-nova:dev
     build:
-      context: ./API/
-    container_name: "lepus-api" 
+      context: ./API/API/Lepus/Lepus.API/
+    container_name: "lepus-api-nova" 
     ports:
       - 5005:80 
     depends_on:
@@ -26,5 +26,5 @@ services:
     ports:
       - 4200:4200 
     depends_on:
-      - lepus-api 
+      - lepus-api-nova 
  
