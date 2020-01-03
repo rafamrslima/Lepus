@@ -35,12 +35,6 @@ namespace Lepus.Infra.Data.Repository
         {
             return await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
-
-        public async Task<List<T>> Select(string userName, int year, int month)
-        {
-            return await _collection.Find(x => x.UserName == userName
-                                            && x.Year == year
-                                            && x.Month == month).ToListAsync();
-        } 
+ 
     }
 }

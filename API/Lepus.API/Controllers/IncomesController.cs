@@ -1,9 +1,9 @@
-﻿using Lepus.Domain.Entities;
+﻿using Lepus.API.Service.Services;
+using Lepus.Domain.Entities;
 using Lepus.Infra.Data.Context;
 using Lepus.Service.Services;
 using Lepus.Service.Validators;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
@@ -13,11 +13,13 @@ namespace Lepus.API.Controllers
     [ApiController]
     public class IncomesController : ControllerBase
     {
-        readonly BaseService<Income> _service;
+        readonly BaseService<Income> _baseService;
+        readonly IncomesService _incomeService;
 
         public IncomesController(MongoDbContext mongoDbContext)
         {
-            _service = new BaseService<Income>(mongoDbContext.Incomes);
+            _baseService = new BaseService<Income>(mongoDbContext.Incomes);
+            _incomeService = new IncomesService(mongoDbContext.Incomes);
         }
 
         [HttpGet("{userName}/{year}/{month}")]
@@ -25,7 +27,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                return new ObjectResult(await _service.Get(userName, year, month));
+                return new ObjectResult(await _incomeService.Get(userName, year, month));
             }
             catch (ArgumentException ex)
             {
@@ -42,7 +44,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _service.Post<IncomeValidator>(income);
+                await _baseService.Post<IncomeValidator>(income);
 
                 return Ok();
             }
@@ -61,7 +63,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _service.Put<IncomeValidator>(incomeId, income);
+                await _incomeService.Put(incomeId, income);
 
                 return Ok();
             }
@@ -80,7 +82,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _service.Delete(incomeId);
+                await _baseService.Delete(incomeId);
 
                 return new NoContentResult();
             }
