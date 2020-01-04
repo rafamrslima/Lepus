@@ -1,26 +1,35 @@
 <table class="table table-bordered mt-5">
     <thead>
         <tr>
-            <th scope="col">Description</th>
-            <th scope="col">Total</th>
+            <th scope="col">Total of Incomes</th>
+            <th scope="col">Total of Expenses</th>
+            <th scope="col">Percentage Spent</th>
+            <th scope="col">Balance</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>Total of Incomes</td>
             <td>{{ totalIncomes | currency:'USD' }}</td>
-        </tr>
-        <tr>
-            <td>Total of Expenses</td>
             <td>{{ totalExpenses | currency:'USD' }}</td>
-        </tr>
-        <tr>
-            <td>Percentage Spent</td>
             <td>% {{ percentage | number : '1.2-2' }}</td>
-        </tr>
-        <tr>
-            <td>Balance</td>
             <td>{{ balance | currency:'USD' }}</td>
         </tr>
     </tbody>
 </table>
+
+<div class="row">
+    <div class="col-md-1"> </div>
+    <div class="col-md-9">
+        <div class="chart-wrapper">
+            <canvas baseChart 
+                [datasets]="barChartData" 
+                [labels]="barChartLabels" 
+                [options]="barChartOptions"
+                [colors]="lineChartColors" 
+                [plugins]="barChartPlugins" 
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+            </canvas>
+        </div>
+    </div>
+</div>

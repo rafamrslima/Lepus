@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { ExpenseService } from './services/expense.service';
@@ -32,7 +33,8 @@ import { UserComponent } from './components/user/user.component';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    ChartsModule
   ],
   providers: [ExpenseService, IncomeService, BalanceService],
   bootstrap: [AppComponent]
