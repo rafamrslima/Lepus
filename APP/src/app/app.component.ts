@@ -11,16 +11,14 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   userName: string;
   year: string;
   month: string;
   showApp: boolean;
-  beautiUserName:string;
-
-  ngOnInit() {
-  }
+  beautiUserName: string;
+  title = 'LepusAPP';
 
   constructor(private incomeService: IncomeService,
     private expenseService: ExpenseService,
@@ -28,53 +26,41 @@ export class AppComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private router: Router) { }
 
-  title = 'LepusAPP';
- 
   loggedIn() {
-
     this.initializeInstances();
-
     this.getIncomes();
     this.getExpenses();
-
     this.showApp = true;
   }
 
-  loggedOut(){
+  loggedOut() {
     this.showApp = false;
   }
 
   updatePeriod() {
-
     this.getValuesFromLocalStorage();
-
     this.getIncomes();
-    this.getExpenses(); 
-
+    this.getExpenses();
     this.router.navigate(['/balance']);
   }
- 
+
   getIncomes() {
     this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
-
       var totalIncomes = incomes.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageIncomes(totalIncomes);
-    })
+    });
   }
 
   getExpenses() {
     this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
-
-      var totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0); 
+      var totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageExpenses(totalExpenses);
-    })
+    });
   }
 
-  initializeInstances() {
-
+  initializeInstances() { 
     this.localStorageService.setYear(new Date().getFullYear().toString());
     this.localStorageService.setMonth((new Date().getMonth() + 1).toString());
-
     this.getValuesFromLocalStorage();
   }
 

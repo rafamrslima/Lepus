@@ -8,19 +8,19 @@
     <tbody>
         <tr>
             <td>Total of Incomes</td>
-            <td>{{ totalIncomes | currency:'BRL'  }}</td>
+            <td>{{ totalIncomes | currency:'USD' }}</td>
         </tr>
         <tr>
             <td>Total of Expenses</td>
-            <td>{{ totalExpenses | currency:'BRL'  }}</td>
-        </tr>
-        <tr>
-            <td>Balance</td>
-            <td>{{ balance | currency:'BRL'  }}</td>
+            <td>{{ totalExpenses | currency:'USD' }}</td>
         </tr>
         <tr>
             <td>Percentage Spent</td>
             <td>% {{ percentage | number : '1.2-2' }}</td>
+        </tr>
+        <tr>
+            <td>Balance</td>
+            <td>{{ balance | currency:'USD' }}</td>
         </tr>
     </tbody>
 </table>

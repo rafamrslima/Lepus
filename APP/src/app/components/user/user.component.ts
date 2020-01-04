@@ -23,7 +23,6 @@ export class UserComponent implements OnInit {
     this.localStorageService.removeBeautyUserName();
     this.localStorageService.removeMonth();
     this.localStorageService.removeYear();
-
     this.loggedOut.emit();
   } 
 }

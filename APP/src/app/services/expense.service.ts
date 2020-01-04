@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { expense } from '../models/expense';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class ExpenseService {
     constructor(private http: HttpClient) {
     }
 
-    expensesUrl: string = 'http://localhost:5005/api/Expenses';
+    expensesUrl: string = `${environment.apiUrl}/expenses`;
 
     getExpenses(userName: string, year: number, month: number): Observable<expense[]> {
         return this.http.get<expense[]>(`${this.expensesUrl}/${userName}/${year}/${month}`);

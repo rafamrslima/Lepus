@@ -26,5 +26,4 @@ export class PeriodInfoComponent implements OnInit {
     this.localStorageService.setMonth(month);
     this.periodChanged.emit();
   }
- 
 }

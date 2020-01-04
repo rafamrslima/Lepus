@@ -13,7 +13,6 @@ import { ExpensesComponent } from './components/expenses/expenses.component';
 import { IncomesComponent } from './components/incomes/incomes.component';
 import { appRoutes } from './routes';
 import { BalanceComponent } from './components/balance/balance.component';
-import { FormComponent } from './components/form/form.component';
 import { LoginComponent } from './components/login/login.component';
 import { PeriodInfoComponent } from './components/periodInfo/periodInfo.component';
 import { UserComponent } from './components/user/user.component';
@@ -25,7 +24,6 @@ import { UserComponent } from './components/user/user.component';
     ExpensesComponent,
     IncomesComponent,
     BalanceComponent,
-    FormComponent,
     LoginComponent,
     PeriodInfoComponent,
     UserComponent,

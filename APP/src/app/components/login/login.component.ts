@@ -9,15 +9,12 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 export class LoginComponent implements OnInit {
 
   userName: string;
-
   @Output() loggedIn = new EventEmitter();
 
   constructor(private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-
     var userName = this.localStorageService.getUserName();
-
     if (userName != null) {
       this.userName = userName;
       this.login();
@@ -26,13 +23,11 @@ export class LoginComponent implements OnInit {
 
   onGo() {
     this.localStorageService.setBeautyUserName(this.userName);
-    this.localStorageService.setUserName(this.userName.toLowerCase().replace(/\s/g, ''));
-
+    this.localStorageService.setUserName(this.userName.toLowerCase().replace(/\s/g, '')); 
     this.login();
   }
 
   login() {
     this.loggedIn.emit();
   }
-
 }

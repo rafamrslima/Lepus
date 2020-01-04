@@ -9,6 +9,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
   templateUrl: './incomes.component.html',
   styleUrls: ['./incomes.component.css']
 })
+
 export class IncomesComponent implements OnInit {
 
   incomes: income[];
@@ -31,14 +32,12 @@ export class IncomesComponent implements OnInit {
   }
 
   getItems() {
-
     this.getValuesFromLocalStorage();
-
     this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       this.incomes = incomes;
       this.totalIncomes = incomes.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageIncomes(this.totalIncomes);
-    })
+    });
   }
 
   getValuesFromLocalStorage() {
@@ -53,7 +52,6 @@ export class IncomesComponent implements OnInit {
   }
 
   onSave() {
-
     var income = {
       "description": this.descriptionForm,
       "value": this.valueForm,
@@ -63,16 +61,14 @@ export class IncomesComponent implements OnInit {
     }
 
     if (this.isEdit) {
-       
       this.incomeService.updateIncome(this.incomeIdOnEditing, income).subscribe(() => { this.showForm = false; this.getItems() });
 
     } else {
- 
-      this.valueForm = 0;
-      this.descriptionForm = '';
       this.incomeService.saveIncome(income).subscribe(() => { this.showForm = false; this.getItems() });
-
     }
+
+    this.valueForm = 0;
+    this.descriptionForm = '';
   }
 
   onEdit(id: string) {
@@ -85,11 +81,9 @@ export class IncomesComponent implements OnInit {
         this.incomeIdOnEditing = income.id;
       }
     });
-
   }
 
   onDelete(id: string) {
     this.incomeService.deleteIncome(id).subscribe(() => this.getItems());
   }
-
 }

@@ -9,18 +9,19 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.css']
 })
+
 export class ExpensesComponent implements OnInit {
 
   expenses: expense[];
   userName: string;
-  year:string;
+  year: string;
   month: string;
   status: number;
   totalExpenses: number
-  showForm :boolean;
+  showForm: boolean;
   descriptionForm: string;
   valueForm: number;
-  isEdit:boolean;
+  isEdit: boolean;
   expenseIdOnEditing: string;
 
   constructor(private expenseService: ExpenseService,
@@ -28,18 +29,16 @@ export class ExpensesComponent implements OnInit {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    this.getItems(); 
+    this.getItems();
   }
 
   getItems() {
-
     this.getValuesFromLocalStorage();
-
     this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
       this.expenses = expenses;
       this.totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageExpenses(this.totalExpenses);
-    })
+    });
   }
 
   getValuesFromLocalStorage() {
@@ -54,7 +53,6 @@ export class ExpensesComponent implements OnInit {
   }
 
   onSave() {
-
     var expense = {
       "description": this.descriptionForm,
       "value": this.valueForm,
@@ -66,15 +64,14 @@ export class ExpensesComponent implements OnInit {
     if (this.isEdit) {
       var description = this.descriptionForm;
       var value = this.valueForm;
-
       this.expenseService.updateExpense(this.expenseIdOnEditing, expense).subscribe(() => { this.showForm = false; this.getItems() });
+
     } else {
- 
-      this.descriptionForm = '';
-      this.valueForm = 0;
       this.expenseService.saveExpense(expense).subscribe(() => { this.showForm = false; this.getItems() });
     }
 
+    this.descriptionForm = '';
+    this.valueForm = 0;
   }
 
   onEdit(id: string) {
@@ -92,5 +89,4 @@ export class ExpensesComponent implements OnInit {
   onDelete(id: string) {
     this.expenseService.deleteExpense(id).subscribe(() => this.getItems());
   }
-
 }
