@@ -24,7 +24,7 @@ services:
       context: ./APP/
     container_name: "lepus-app"
     ports:
-      - 4200:4200 
+      - 4400:4200 
     depends_on:
       - lepus-api 
  

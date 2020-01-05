@@ -33,7 +33,7 @@
   <tbody>
     <tr *ngFor="let income of incomes">
       <td scope="row">{{ income.description }}</td>
-      <td>{{ income.value | currency:'BRL'  }}</td>
+      <td>{{ income.value | currency:'USD'  }}</td>
       <td> <button class="btn btn-warning" (click)="onEdit(income.id)">Edit</button> </td>
       <td> <button class="btn btn-danger" (click)="onDelete(income.id)">Delete</button> </td>
     </tr>
@@ -43,5 +43,5 @@
 
 <div class="row">
   <div class="col-md-2"> Total </div>
-  <div class="col-md-2">{{ totalIncomes | currency:'BRL' }}</div>
+  <div class="col-md-2">{{ totalIncomes | currency:'USD' }}</div>
 </div>
