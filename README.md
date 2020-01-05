@@ -2,7 +2,7 @@
 
 The Lepus app allows you to register incomes and expenses of the month and have your balance and percentage spent displayed in charts. 
 
-![Logo of Lepus App](/src/assets/images/lepusapp.PNG)
+![Logo of Lepus App](/APP/src/assets/images/lepusapp.PNG)
 
 ## Prerequisites
 * [Docker](https://www.docker.com/products/docker-desktop)
