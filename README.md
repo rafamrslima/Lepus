@@ -22,6 +22,6 @@ The Lepus app allows you to register incomes and expenses of the month and have 
 * Choose the year and the month in the dropdowns on the top of the page.
 * In the tab 'Incomes' add your incomes (description and value).
 * In the tab 'Expenses' add your expenses (description and value).
-* Than in the section balance you're going to be able to see your balance of the month, percentage of the money spent, and a chart displaying the diffenrence between the total of incomes and expenses.
+* Than in the section balance you're going to be able to see your balance of the month, percentage of the money spent, and a chart displaying the difference between the total of incomes and expenses.
 
-### Thank's :)  
+### Thanks :)  
