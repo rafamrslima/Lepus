@@ -8,7 +8,7 @@ The Lepus app allows you to register incomes and expenses of the month and have 
 * [Docker](https://www.docker.com/products/docker-desktop)
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
-## How to run
+## How to run the project
 1. In the root folder of the project, open you terminal and run the command 'docker-compose up'. After making changes in the code, just run 'docker-compose up --build'.
 2. Open your browser in http://localhost:4400 (the backend API will be running on port 5005, and mongoDB on port 27020. :))
  
@@ -24,4 +24,4 @@ The Lepus app allows you to register incomes and expenses of the month and have 
 * In the tab 'Expenses' add your expenses (description and value).
 * Than in the section balance you're going to be able to see your balance of the month, percentage of the money spent, and a chart displaying the difference between the total of incomes and expenses.
 
-### Thanks :)  
+ 

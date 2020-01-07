@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Lepus.Domain.Entities;
+﻿using Lepus.Domain.Entities;
 using Lepus.Domain.Interfaces;
 using Lepus.Infra.Data.Repository;
 using MongoDB.Driver;
@@ -23,10 +22,13 @@ namespace Lepus.Service.Services
             return await _repository.Select(id);
         } 
   
-        public async Task Post<V>(T obj) where V : AbstractValidator<T>
+        public async Task Post(T obj)
         {
-            Validate(obj, Activator.CreateInstance<V>());
+            if (obj == null)
+                throw new Exception("Registers not found.");
 
+            obj.Validate();
+  
             await _repository.Insert(obj);
         }
   
@@ -37,15 +39,7 @@ namespace Lepus.Service.Services
                 throw new ArgumentException("Item not found");
 
             await _repository.Delete(id);
-        }
-  
-        private void Validate(T obj, AbstractValidator<T> validator)
-        {
-            if (obj == null)
-                throw new Exception("Registers not found.");
-
-            validator.ValidateAndThrow(obj);
-        }
+        } 
          
     }
 }

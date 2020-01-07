@@ -2,7 +2,6 @@
 using Lepus.Domain.Entities;
 using Lepus.Infra.Data.Context;
 using Lepus.Service.Services;
-using Lepus.Service.Validators;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -44,7 +43,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _baseService.Post<ExpenseValidator>(expense);
+                await _baseService.Post(expense);
 
                 return Ok();
 

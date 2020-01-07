@@ -8,6 +8,8 @@ namespace Lepus.Domain.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public virtual string Id { get; set; }
+
+        public virtual void Validate() { }
          
     }
 }

@@ -1,12 +1,9 @@
-﻿using FluentValidation;
-using Lepus.API.Infra.Data.Repository;
+﻿using Lepus.API.Infra.Data.Repository;
 using Lepus.Domain.Entities;
 using Lepus.Infra.Data.Repository;
-using Lepus.Service.Validators;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Lepus.API.Service.Services
@@ -29,7 +26,7 @@ namespace Lepus.API.Service.Services
 
         public async Task Put(string id, Income obj) 
         {
-            Validate(obj, Activator.CreateInstance<IncomeValidator>());
+            obj.Validate();
 
             var item = await _baseRepository.Select(id);
 
@@ -40,14 +37,6 @@ namespace Lepus.API.Service.Services
             item.Description = obj.Description;
 
             await _baseRepository.Update(id, item);
-        }
-
-        private void Validate(Income obj, AbstractValidator<Income> validator)
-        {
-            if (obj == null)
-                throw new Exception("Registers not found.");
-
-            validator.ValidateAndThrow(obj);
         }
     }
 }
