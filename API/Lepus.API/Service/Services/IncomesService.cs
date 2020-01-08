@@ -1,4 +1,5 @@
-﻿using Lepus.API.Infra.Data.Repository;
+﻿using Lepus.API.Domain.Interfaces;
+using Lepus.API.Infra.Data.Repository;
 using Lepus.Domain.Entities;
 using Lepus.Infra.Data.Repository;
 using MongoDB.Driver;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lepus.API.Service.Services
 {
-    public class IncomesService 
+    public class IncomesService : IIncomesService
     {
         private readonly IncomesRepository _IncomeRepository;
         private readonly BaseRepository<Income> _baseRepository;

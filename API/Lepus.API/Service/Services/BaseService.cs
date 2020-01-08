@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Lepus.Service.Services
 {
-    public class BaseService<T> : IService<T> where T : BaseEntity
+    public class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
-
-        private BaseRepository<T> _repository;
+        private readonly BaseRepository<T> _repository;
 
         public BaseService(IMongoCollection<T> mongoCollection)
         {
@@ -40,6 +39,5 @@ namespace Lepus.Service.Services
 
             await _repository.Delete(id);
         } 
-         
     }
 }

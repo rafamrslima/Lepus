@@ -1,9 +1,13 @@
-﻿using Lepus.API.Service.Services;
+﻿using Lepus.API.Domain.Interfaces;
+using Lepus.API.Service.Services;
 using Lepus.Domain.Entities;
+using Lepus.Domain.Interfaces;
 using Lepus.Infra.Data.Context;
 using Lepus.Service.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Lepus.API.Controllers
@@ -12,8 +16,8 @@ namespace Lepus.API.Controllers
     [ApiController]
     public class ExpensesController : ControllerBase
     {
-        readonly BaseService<Expense> _baseService;
-        readonly ExpensesService _expenseService;
+        readonly IBaseService<Expense> _baseService;
+        readonly IExpensesService _expenseService;
 
         public ExpensesController(MongoDbContext mongoDbContext)
         {
@@ -31,11 +35,7 @@ namespace Lepus.API.Controllers
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            } 
         }
 
         [HttpPost]
@@ -43,16 +43,14 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _baseService.Post(expense);
-
-                return Ok();
-
+                await _baseService.Post(expense); 
+                return Ok(); 
             }
             catch (ArgumentNullException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -63,16 +61,14 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _expenseService.Put(expenseId, expense);
-
-                return Ok(); 
-
+                await _expenseService.Put(expenseId, expense); 
+                return Ok();  
             }
             catch (ArgumentNullException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -83,19 +79,13 @@ namespace Lepus.API.Controllers
         {
             try
             { 
-                await _baseService.Delete(expenseId);
-
-                return new NoContentResult();
-
+                await _baseService.Delete(expenseId); 
+                return new NoContentResult(); 
             }
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            } 
         }
     }
 }

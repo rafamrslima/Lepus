@@ -1,5 +1,7 @@
-﻿using Lepus.API.Service.Services;
+﻿using Lepus.API.Domain.Interfaces;
+using Lepus.API.Service.Services;
 using Lepus.Domain.Entities;
+using Lepus.Domain.Interfaces;
 using Lepus.Infra.Data.Context;
 using Lepus.Service.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +14,8 @@ namespace Lepus.API.Controllers
     [ApiController]
     public class IncomesController : ControllerBase
     {
-        readonly BaseService<Income> _baseService;
-        readonly IncomesService _incomeService;
+        readonly IBaseService<Income> _baseService;
+        readonly IIncomesService _incomeService;
 
         public IncomesController(MongoDbContext mongoDbContext)
         {
@@ -31,11 +33,7 @@ namespace Lepus.API.Controllers
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            } 
         }
 
         [HttpPost]
@@ -43,15 +41,14 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _baseService.Post(income);
-
+                await _baseService.Post(income); 
                 return Ok();
             }
             catch (ArgumentNullException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -62,15 +59,14 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _incomeService.Put(incomeId, income);
-
+                await _incomeService.Put(incomeId, income); 
                 return Ok();
             }
             catch (ArgumentNullException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -81,18 +77,13 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _baseService.Delete(incomeId);
-
+                await _baseService.Delete(incomeId); 
                 return new NoContentResult();
             }
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            } 
         }
     }
 }

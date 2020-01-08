@@ -1,4 +1,5 @@
-﻿using Lepus.API.Infra.Data.Repository;
+﻿using Lepus.API.Domain.Interfaces;
+using Lepus.API.Infra.Data.Repository;
 using Lepus.Domain.Entities;
 using Lepus.Infra.Data.Repository;
 using MongoDB.Driver;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lepus.API.Service.Services
 {
-    public class ExpensesService
+    public class ExpensesService : IExpensesService
     {
         private readonly ExpensesRepository _expenseRepository;
         private readonly BaseRepository<Expense> _baseRepository;
@@ -38,6 +39,5 @@ namespace Lepus.API.Service.Services
 
             await _baseRepository.Update(id, item);
         }
- 
     }
 }

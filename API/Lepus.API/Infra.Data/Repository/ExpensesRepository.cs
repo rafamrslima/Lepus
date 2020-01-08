@@ -1,16 +1,14 @@
-﻿using Lepus.Domain.Entities;
+﻿using Lepus.API.Domain.Interfaces;
+using Lepus.Domain.Entities;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
 
 namespace Lepus.API.Infra.Data.Repository
 {
-    public class ExpensesRepository
+    public class ExpensesRepository : IExpensesRepository
     {
-        IMongoCollection<Expense> _collection;
+        readonly IMongoCollection<Expense> _collection;
         public ExpensesRepository(IMongoCollection<Expense> collection)
         {
             _collection = collection;

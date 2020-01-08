@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Lepus.Domain.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IBaseRepository<T> where T : BaseEntity
     {
         Task<T> Select(string id);
  
@@ -13,6 +13,5 @@ namespace Lepus.Domain.Interfaces
         Task Update(string id, T obj);
 
         Task Delete(string id);
-         
     }
 }

@@ -1,16 +1,13 @@
 ﻿using Lepus.Domain.Entities;
 using Lepus.Domain.Interfaces;
-using Lepus.Infra.Data.Context;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lepus.Infra.Data.Repository
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        IMongoCollection<T> _collection;
+        readonly IMongoCollection<T> _collection;
         public BaseRepository(IMongoCollection<T> collection)
         {
             _collection = collection;
