@@ -1,9 +1,7 @@
-﻿using Lepus.API.Domain.Interfaces;
+﻿using Lepus.API.Domain.Entities;
+using Lepus.API.Domain.Enums;
+using Lepus.API.Domain.Interfaces;
 using Lepus.API.Service.Services;
-using Lepus.Domain.Entities;
-using Lepus.Domain.Interfaces;
-using Lepus.Infra.Data.Context;
-using Lepus.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -14,13 +12,11 @@ namespace Lepus.API.Controllers
     [ApiController]
     public class IncomesController : ControllerBase
     {
-        readonly IBaseService<Income> _baseService;
-        readonly IIncomesService _incomeService;
+         readonly ITransactionService _incomeService;
 
-        public IncomesController(MongoDbContext mongoDbContext)
+        public IncomesController(IncomesService  incomesService)
         {
-            _baseService = new BaseService<Income>(mongoDbContext.Incomes);
-            _incomeService = new IncomesService(mongoDbContext.Incomes);
+            _incomeService = incomesService;
         }
 
         [HttpGet("{userName}/{year}/{month}")]
@@ -37,11 +33,12 @@ namespace Lepus.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Income income)
+        public async Task<IActionResult> Post([FromBody]Transaction income)
         {
             try
             {
-                await _baseService.Post(income); 
+                income.TransactionType= TransactionType.Income;
+                await _incomeService.Post(income); 
                 return Ok();
             }
             catch (ArgumentNullException ex)
@@ -55,10 +52,11 @@ namespace Lepus.API.Controllers
         }
 
         [HttpPut("{incomeId}")]
-        public async Task<IActionResult> Put(string incomeId, [FromBody]Income income)
+        public async Task<IActionResult> Put(string incomeId, [FromBody]Transaction income)
         {
             try
             {
+                income.TransactionType = TransactionType.Income;
                 await _incomeService.Put(incomeId, income); 
                 return Ok();
             }
@@ -77,7 +75,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _baseService.Delete(incomeId); 
+                await _incomeService.Delete(incomeId); 
                 return new NoContentResult();
             }
             catch (ArgumentException ex)

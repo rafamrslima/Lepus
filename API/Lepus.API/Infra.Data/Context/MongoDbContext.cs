@@ -1,4 +1,5 @@
-﻿using Lepus.Domain.Entities;
+﻿using Lepus.API.Domain.Entities;
+using Lepus.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
@@ -14,19 +15,19 @@ namespace Lepus.Infra.Data.Context
             _database = client.GetDatabase(config.GetSection("MongoDB:Database").Value);
         }
 
-        public IMongoCollection<Income> Incomes
+        public IMongoCollection<Transaction> Incomes
         {
             get
             {
-                return _database.GetCollection<Income>("Incomes");
+                return _database.GetCollection<Transaction>("Incomes");
             }
         }
 
-        public IMongoCollection<Expense> Expenses
+        public IMongoCollection<Transaction> Expenses
         {
             get
             {
-                return _database.GetCollection<Expense>("Expenses");
+                return _database.GetCollection<Transaction>("Expenses");
             }
         }
     }

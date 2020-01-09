@@ -1,31 +1,31 @@
-﻿using Lepus.API.Domain.Interfaces;
+﻿using Lepus.API.Domain.Entities;
+using Lepus.API.Domain.Interfaces;
 using Lepus.API.Infra.Data.Repository;
-using Lepus.Domain.Entities;
+using Lepus.Infra.Data.Context;
 using Lepus.Infra.Data.Repository;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lepus.API.Service.Services
 {
-    public class IncomesService : IIncomesService
+    public class IncomesService : ITransactionService
     {
-        private readonly IncomesRepository _IncomeRepository;
-        private readonly BaseRepository<Income> _baseRepository;
+        private readonly IncomesRepository _incomesRepository;
+        private readonly BaseRepository<Transaction> _baseRepository;
 
-        public IncomesService(IMongoCollection<Income> mongoCollection)
+        public IncomesService(MongoDbContext mongoDbContext, IncomesRepository incomesRepository)
         {
-            _IncomeRepository = new IncomesRepository(mongoCollection);
-            _baseRepository = new BaseRepository<Income>(mongoCollection);
+            _incomesRepository = incomesRepository;
+            _baseRepository = new BaseRepository<Transaction>(mongoDbContext.Incomes);
         }
 
-        public async Task<List<Income>> Get(string userName, int year, int month)
+        public async Task<List<Transaction>> Get(string userName, int year, int month)
         {
-            return await _IncomeRepository.Select(userName, year, month);
+            return await _incomesRepository.Select(userName, year, month);
         }
 
-        public async Task Put(string id, Income obj) 
+        public async Task Put(string id, Transaction obj) 
         {
             obj.Validate();
 
@@ -38,6 +38,21 @@ namespace Lepus.API.Service.Services
             item.Description = obj.Description;
 
             await _baseRepository.Update(id, item);
+        }
+
+        public async Task Delete(string id)
+        {
+            var item = await _baseRepository.Select(id);
+            if (item == null)
+                throw new ArgumentException("Item not found");
+
+            await _baseRepository.Delete(id);
+        }
+
+        public async Task Post(Transaction obj)
+        { 
+            obj.Validate(); 
+            await _baseRepository.Insert(obj);
         }
     }
 }

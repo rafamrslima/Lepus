@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Lepus.API.Domain.Enums;
+using Lepus.Domain.Entities;
+using System;
 
-namespace Lepus.Domain.Entities
+namespace Lepus.API.Domain.Entities
 {
-    public class Expense : BaseEntity
+    public class Transaction : BaseEntity
     {
         public string Description { get; set; }
 
@@ -13,6 +15,8 @@ namespace Lepus.Domain.Entities
         public int Year { get; set; }
 
         public string UserName { get; set; }
+
+        public TransactionType TransactionType { get; set; }
 
         public override void Validate()
         {
@@ -26,9 +30,9 @@ namespace Lepus.Domain.Entities
                 throw new ArgumentException("The month has to be between 1 and 12.");
 
             if (Year < DateTime.Now.Year)
-                throw new ArgumentException($"The year should be greater or equal than {DateTime.Now.Year}.");
+                throw new ArgumentException($"The year should be equal or greater than {DateTime.Now.Year}.");
 
-            if (Value <= 0 || Value > 9999999)
+            if (Value < 1 || Value > 9999999)
                 throw new ArgumentException("The value should be greater than 0 and less than 9999999.");
 
             if (string.IsNullOrWhiteSpace(UserName))

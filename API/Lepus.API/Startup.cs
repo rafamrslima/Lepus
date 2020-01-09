@@ -1,13 +1,12 @@
+using Lepus.API.Domain.Interfaces;
+using Lepus.API.Infra.Data.Repository;
 using Lepus.API.Service.Services;
-using Lepus.Domain.Entities;
 using Lepus.Infra.Data.Context;
-using Lepus.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MongoDB.Driver;
 
 namespace Lepus.API
 {
@@ -26,7 +25,11 @@ namespace Lepus.API
             services.AddControllers();
             services.AddCors();
 
-            services.AddScoped<MongoDbContext>(); 
+            services.AddScoped<MongoDbContext>();
+            services.AddScoped<ExpensesService>();
+            services.AddScoped<IncomesService>();
+            services.AddScoped<IncomesRepository>();
+            services.AddScoped<ExpensesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -32,6 +32,5 @@ namespace Lepus.Infra.Data.Repository
         {
             return await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
- 
     }
 }
