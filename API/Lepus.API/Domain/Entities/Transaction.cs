@@ -1,11 +1,21 @@
-﻿using Lepus.API.Domain.Enums;
-using Lepus.Domain.Entities;
+﻿using Lepus.Domain.Entities;
 using System;
 
 namespace Lepus.API.Domain.Entities
 {
     public class Transaction : BaseEntity
     {
+        public Transaction(string description, decimal value, int month, int year, string userName)
+        {
+            Description = description;
+            Value = value;
+            Month = month;
+            Year = year;
+            UserName = userName;
+
+            Validate();
+        }
+
         public string Description { get; set; }
 
         public decimal Value { get; set; }
@@ -15,10 +25,8 @@ namespace Lepus.API.Domain.Entities
         public int Year { get; set; }
 
         public string UserName { get; set; }
-
-        public TransactionType TransactionType { get; set; }
-
-        public override void Validate()
+         
+        public void Validate()
         {
             if (string.IsNullOrWhiteSpace(Description))
                 throw new ArgumentException("It's necessary to inform the description.");

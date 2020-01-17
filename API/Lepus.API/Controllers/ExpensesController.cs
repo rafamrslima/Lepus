@@ -1,8 +1,7 @@
 ﻿using Lepus.API.Domain.Entities;
-using Lepus.API.Domain.Enums;
 using Lepus.API.Domain.Interfaces;
+using Lepus.API.Service.Dtos;
 using Lepus.API.Service.Services;
-using Lepus.Infra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace Lepus.API.Controllers
 
         public ExpensesController(ExpensesService expensesService)
         {
-             _expenseService = expensesService;
+            _expenseService = expensesService;
         }
 
         [HttpGet("{userName}/{year}/{month}")]
@@ -34,11 +33,11 @@ namespace Lepus.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Transaction expense)
+        public async Task<IActionResult> Post([FromBody]TransactionDto expenseDto)
         {
             try
             {
-                expense.TransactionType = TransactionType.Expense; 
+                var expense = new Transaction(expenseDto.Description, expenseDto.Value, expenseDto.Month, expenseDto.Year, expenseDto.UserName);
                 await _expenseService.Post(expense);
                 return Ok();
             }
@@ -53,11 +52,12 @@ namespace Lepus.API.Controllers
         }
 
         [HttpPut("{expenseId}")]
-        public async Task<IActionResult> Put(string expenseId, [FromBody]Transaction expense)
+        public async Task<IActionResult> Put(string expenseId, [FromBody]TransactionDto expenseDto)
         {
             try
             {
-                expense.TransactionType = TransactionType.Expense;
+                var expense = new Transaction(expenseDto.Description, expenseDto.Value, expenseDto.Month, expenseDto.Year, expenseDto.UserName);
+
                 await _expenseService.Put(expenseId, expense);
                 return Ok();
             }

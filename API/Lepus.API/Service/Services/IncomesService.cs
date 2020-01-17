@@ -27,8 +27,6 @@ namespace Lepus.API.Service.Services
 
         public async Task Put(string id, Transaction obj) 
         {
-            obj.Validate();
-
             var item = await _baseRepository.Select(id);
 
             if (item == null)
@@ -51,7 +49,6 @@ namespace Lepus.API.Service.Services
 
         public async Task Post(Transaction obj)
         { 
-            obj.Validate(); 
             await _baseRepository.Insert(obj);
         }
     }

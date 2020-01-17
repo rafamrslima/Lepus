@@ -1,6 +1,6 @@
 ﻿using Lepus.API.Domain.Entities;
-using Lepus.API.Domain.Enums;
 using Lepus.API.Domain.Interfaces;
+using Lepus.API.Service.Dtos;
 using Lepus.API.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +12,9 @@ namespace Lepus.API.Controllers
     [ApiController]
     public class IncomesController : ControllerBase
     {
-         readonly ITransactionService _incomeService;
+        readonly ITransactionService _incomeService;
 
-        public IncomesController(IncomesService  incomesService)
+        public IncomesController(IncomesService incomesService)
         {
             _incomeService = incomesService;
         }
@@ -29,16 +29,16 @@ namespace Lepus.API.Controllers
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
-            } 
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Transaction income)
+        public async Task<IActionResult> Post([FromBody]TransactionDto incomeDto)
         {
             try
             {
-                income.TransactionType= TransactionType.Income;
-                await _incomeService.Post(income); 
+                var income = new Transaction(incomeDto.Description, incomeDto.Value, incomeDto.Month, incomeDto.Year, incomeDto.UserName);
+                await _incomeService.Post(income);
                 return Ok();
             }
             catch (ArgumentNullException ex)
@@ -52,12 +52,12 @@ namespace Lepus.API.Controllers
         }
 
         [HttpPut("{incomeId}")]
-        public async Task<IActionResult> Put(string incomeId, [FromBody]Transaction income)
+        public async Task<IActionResult> Put(string incomeId, [FromBody]TransactionDto incomeDto)
         {
             try
             {
-                income.TransactionType = TransactionType.Income;
-                await _incomeService.Put(incomeId, income); 
+                var income = new Transaction(incomeDto.Description, incomeDto.Value, incomeDto.Month, incomeDto.Year, incomeDto.UserName);
+                await _incomeService.Put(incomeId, income);
                 return Ok();
             }
             catch (ArgumentNullException ex)
@@ -75,13 +75,13 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                await _incomeService.Delete(incomeId); 
+                await _incomeService.Delete(incomeId);
                 return new NoContentResult();
             }
             catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
-            } 
+            }
         }
     }
 }
