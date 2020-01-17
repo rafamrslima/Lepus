@@ -56,9 +56,7 @@ namespace Lepus.API.Controllers
         {
             try
             {
-                var expense = new Transaction(expenseDto.Description, expenseDto.Value, expenseDto.Month, expenseDto.Year, expenseDto.UserName);
-
-                await _expenseService.Put(expenseId, expense);
+                await _expenseService.Put(expenseId, expenseDto.Value, expenseDto.Description);
                 return Ok();
             }
             catch (ArgumentNullException ex)

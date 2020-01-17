@@ -1,6 +1,7 @@
 ﻿using Lepus.API.Domain.Entities;
 using Lepus.API.Domain.Interfaces;
 using Lepus.API.Infra.Data.Repository;
+using Lepus.API.Service.Dtos;
 using Lepus.Infra.Data.Context;
 using Lepus.Infra.Data.Repository;
 using System;
@@ -25,17 +26,21 @@ namespace Lepus.API.Service.Services
             return await _incomesRepository.Select(userName, year, month);
         }
 
-        public async Task Put(string id, Transaction obj) 
+        public async Task Post(Transaction transaction)
         {
-            var item = await _baseRepository.Select(id);
+            await _baseRepository.Insert(transaction);
+        }
 
-            if (item == null)
+        public async Task Put(string id, decimal value, string description)
+        {
+            var transaction = await _baseRepository.Select(id);
+
+            if (transaction == null)
                 throw new ArgumentException("Item not found");
 
-            item.Value = obj.Value;
-            item.Description = obj.Description;
+            transaction.Update(value, description);
 
-            await _baseRepository.Update(id, item);
+            await _baseRepository.Update(id, transaction);
         }
 
         public async Task Delete(string id)
@@ -45,11 +50,6 @@ namespace Lepus.API.Service.Services
                 throw new ArgumentException("Item not found");
 
             await _baseRepository.Delete(id);
-        }
-
-        public async Task Post(Transaction obj)
-        { 
-            await _baseRepository.Insert(obj);
-        }
+        } 
     }
 }

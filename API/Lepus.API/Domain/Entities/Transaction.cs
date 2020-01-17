@@ -7,47 +7,59 @@ namespace Lepus.API.Domain.Entities
     {
         public Transaction(string description, decimal value, int month, int year, string userName)
         {
+            Validate(description, value, month, year, userName);
+
             Description = description;
             Value = value;
             Month = month;
             Year = year;
             UserName = userName;
-
-            Validate();
         }
 
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
-        public decimal Value { get; set; }
+        public decimal Value { get; private set; }
 
-        public int Month { get; set; }
+        public int Month { get; private set; }
 
-        public int Year { get; set; }
+        public int Year { get; private set; }
 
-        public string UserName { get; set; }
-         
-        public void Validate()
+        public string UserName { get; private set; }
+
+        public void Validate(string description, decimal value, int month, int year, string userName)
         {
-            if (string.IsNullOrWhiteSpace(Description))
+            if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentException("It's necessary to inform the description.");
 
-            if (Description.Length > 50)
+            if (description.Length > 50)
                 throw new ArgumentException("The maximum allowed for the description is 50 characters.");
 
-            if (Month < 1 || Month > 12)
+            if (month < 1 || month > 12)
                 throw new ArgumentException("The month has to be between 1 and 12.");
 
-            if (Year < DateTime.Now.Year)
+            if (year < DateTime.Now.Year)
                 throw new ArgumentException($"The year should be equal or greater than {DateTime.Now.Year}.");
 
-            if (Value < 1 || Value > 9999999)
+            if (value < 1 || value > 9999999)
                 throw new ArgumentException("The value should be greater than 0 and less than 9999999.");
 
             if (string.IsNullOrWhiteSpace(UserName))
                 throw new ArgumentException("It's necessary to inform the user name.");
 
-            if (UserName.Length > 25)
+            if (userName.Length > 25)
                 throw new ArgumentException("The maximum allowed for the user name is 25 characters.");
+        }
+
+        public void Update(decimal value, string description)
+        {
+            if (value < 1 || value > 9999999)
+                throw new ArgumentException("The value should be greater than 0 and less than 9999999.");
+             
+            if (description.Length > 50)
+                throw new ArgumentException("The maximum allowed for the description is 50 characters.");
+
+            Value = value;
+            Description = description;
         }
     }
 }
