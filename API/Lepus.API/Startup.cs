@@ -1,5 +1,6 @@
 using Lepus.API.Domain.Interfaces;
 using Lepus.API.Infra.Data.Repository;
+using Lepus.API.Service.Middlewares;
 using Lepus.API.Service.Services;
 using Lepus.Infra.Data.Context;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +40,8 @@ namespace Lepus.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware)); 
 
             app.UseHttpsRedirection();
 

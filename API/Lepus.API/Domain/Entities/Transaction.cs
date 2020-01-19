@@ -43,7 +43,7 @@ namespace Lepus.API.Domain.Entities
             if (value < 1 || value > 9999999)
                 throw new ArgumentException("The value should be greater than 0 and less than 9999999.");
 
-            if (string.IsNullOrWhiteSpace(UserName))
+            if (string.IsNullOrWhiteSpace(userName))
                 throw new ArgumentException("It's necessary to inform the user name.");
 
             if (userName.Length > 25)
