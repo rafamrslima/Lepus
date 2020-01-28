@@ -27,10 +27,8 @@ namespace Lepus.API
             services.AddCors();
 
             services.AddScoped<MongoDbContext>();
-            services.AddScoped<ExpensesService>();
-            services.AddScoped<IncomesService>();
-            services.AddScoped<IncomesRepository>();
-            services.AddScoped<ExpensesRepository>();
+            services.AddScoped<TransactionService>();
+            services.AddScoped<TransactionRepository>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

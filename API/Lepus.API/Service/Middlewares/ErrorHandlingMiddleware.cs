@@ -15,7 +15,7 @@ namespace Lepus.API.Service.Middlewares
             this.next = next;
         }
 
-        public async Task Invoke(HttpContext context /* other dependencies */)
+        public async Task Invoke(HttpContext context)
         {
             try
             {

@@ -1,27 +1,27 @@
 ﻿using Lepus.API.Domain.Entities;
 using Lepus.API.Domain.Interfaces;
 using Lepus.API.Infra.Data.Repository;
-using Lepus.Infra.Data.Context;
 using Lepus.Infra.Data.Repository;
+using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lepus.API.Service.Services
 {
-    public class ExpensesService : ITransactionService
+    public class TransactionService : ITransactionService
     {
-        private readonly ExpensesRepository _expenseRepository;
-        private readonly BaseRepository<Transaction> _baseRepository;
+         private readonly BaseRepository<Transaction> _baseRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public ExpensesService(MongoDbContext mongoDbContext, ExpensesRepository expensesRepository)
+        public TransactionService(IMongoCollection<Transaction> collection)
         {
-            _expenseRepository = expensesRepository;
-            _baseRepository = new BaseRepository<Transaction>(mongoDbContext.Expenses);
+            _baseRepository = new BaseRepository<Transaction>(collection);
+            _transactionRepository = new TransactionRepository(collection);
         }
 
         public async Task<List<Transaction>> Get(string userName, int year, int month)
         {
-            return await _expenseRepository.Select(userName, year, month);
+            return await _transactionRepository.Select(userName, year, month);
         }
 
         public async Task Post(Transaction transaction)
@@ -48,6 +48,6 @@ namespace Lepus.API.Service.Services
                 throw new KeyNotFoundException("Item not found");
 
             await _baseRepository.Delete(id);
-        } 
+        }
     }
 }
