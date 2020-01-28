@@ -1,8 +1,7 @@
 ﻿using Lepus.API.Domain.Entities;
+using Lepus.API.Domain.Enums;
 using Lepus.API.Domain.Interfaces;
-using Lepus.API.Infra.Data.Repository;
-using Lepus.Infra.Data.Repository;
-using MongoDB.Driver;
+using Lepus.API.Service.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,44 +9,43 @@ namespace Lepus.API.Service.Services
 {
     public class TransactionService : ITransactionService
     {
-         private readonly BaseRepository<Transaction> _baseRepository;
         private readonly ITransactionRepository _transactionRepository;
 
-        public TransactionService(IMongoCollection<Transaction> collection)
+        public TransactionService(ITransactionRepository transactionRepository)
         {
-            _baseRepository = new BaseRepository<Transaction>(collection);
-            _transactionRepository = new TransactionRepository(collection);
+            _transactionRepository = transactionRepository;
         }
 
-        public async Task<List<Transaction>> Get(string userName, int year, int month)
+        public async Task<List<Transaction>> Get(string userName, int year, int month, TransactionType transactionType)
         {
-            return await _transactionRepository.Select(userName, year, month);
+            return await _transactionRepository.Select(userName, year, month, transactionType);
         }
 
-        public async Task Post(Transaction transaction)
+        public async Task Post(TransactionDto transactionDto, TransactionType transactionType)
         {
-            await _baseRepository.Insert(transaction);
+            var transaction = new Transaction(transactionDto.Description, transactionDto.Value, transactionDto.Month, transactionDto.Year, transactionDto.UserName, transactionType);
+            await _transactionRepository.Insert(transaction);
         }
 
         public async Task Put(string id, decimal value, string description)
         {
-            var transaction = await _baseRepository.Select(id);
+            var transaction = await _transactionRepository.Select(id);
 
             if (transaction == null)
                 throw new KeyNotFoundException("Item not found");
 
             transaction.Update(value, description);
 
-            await _baseRepository.Update(id, transaction);
+            await _transactionRepository.Update(id, transaction);
         }
 
         public async Task Delete(string id)
         {
-            var item = await _baseRepository.Select(id);
+            var item = await _transactionRepository.Select(id);
             if (item == null)
                 throw new KeyNotFoundException("Item not found");
 
-            await _baseRepository.Delete(id);
+            await _transactionRepository.Delete(id);
         }
     }
 }

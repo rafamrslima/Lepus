@@ -1,5 +1,6 @@
 ﻿using Lepus.Domain.Entities;
 using Lepus.Domain.Interfaces;
+using Lepus.Infra.Data.Context;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 
@@ -7,10 +8,10 @@ namespace Lepus.Infra.Data.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        readonly IMongoCollection<T> _collection;
-        public BaseRepository(IMongoCollection<T> collection)
+        protected readonly IMongoCollection<T> _collection;
+        public BaseRepository(MongoDbContext<T> mongoDbContext)
         {
-            _collection = collection;
+            _collection = mongoDbContext.Collection;
         }
 
         public async Task Insert(T obj)

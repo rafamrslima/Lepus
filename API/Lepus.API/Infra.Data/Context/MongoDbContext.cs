@@ -1,11 +1,10 @@
 ﻿using Lepus.API.Domain.Entities;
-using Lepus.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
 namespace Lepus.Infra.Data.Context
 {
-    public class MongoDbContext
+    public class MongoDbContext<T> 
     {
         private readonly IMongoDatabase _database;
 
@@ -15,20 +14,12 @@ namespace Lepus.Infra.Data.Context
             _database = client.GetDatabase(config.GetSection("MongoDB:Database").Value);
         }
 
-        public IMongoCollection<Transaction> Incomes
+        public IMongoCollection<T> Collection
         {
             get
             {
-                return _database.GetCollection<Transaction>("Incomes");
+                return _database.GetCollection<T>(typeof(T).Name);
             }
-        }
-
-        public IMongoCollection<Transaction> Expenses
-        {
-            get
-            {
-                return _database.GetCollection<Transaction>("Expenses");
-            }
-        }
+        } 
     }
 }

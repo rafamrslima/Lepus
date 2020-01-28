@@ -1,35 +1,32 @@
-﻿using Lepus.API.Domain.Entities;
+﻿using Lepus.API.Domain.Enums;
 using Lepus.API.Domain.Interfaces;
 using Lepus.API.Service.Dtos;
-using Lepus.API.Service.Services;
-using Lepus.Infra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Lepus.API.Controllers
+namespace Lepus.API.Application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ExpensesController : ControllerBase
     {
-        readonly TransactionService _transactionService;
+        readonly ITransactionService _transactionService;
             
-        public ExpensesController(MongoDbContext mongoDbContext)
+        public ExpensesController(ITransactionService transactionService)
         {
-            _transactionService = new TransactionService(mongoDbContext.Expenses);
+            _transactionService = transactionService;
         }
 
         [HttpGet("{userName}/{year}/{month}")]
         public async Task<IActionResult> Get(string userName, int year, int month)
         {
-            return new ObjectResult(await _transactionService.Get(userName, year, month));
+            return new ObjectResult(await _transactionService.Get(userName, year, month, TransactionType.Expense));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]TransactionDto expenseDto)
         {
-            var expense = new Transaction(expenseDto.Description, expenseDto.Value, expenseDto.Month, expenseDto.Year, expenseDto.UserName);
-            await _transactionService.Post(expense);
+            await _transactionService.Post(expenseDto, TransactionType.Expense);
             return Ok();
         }
 

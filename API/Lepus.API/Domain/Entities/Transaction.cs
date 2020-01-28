@@ -1,11 +1,12 @@
-﻿using Lepus.Domain.Entities;
+﻿using Lepus.API.Domain.Enums;
+using Lepus.Domain.Entities;
 using System;
 
 namespace Lepus.API.Domain.Entities
 {
     public class Transaction : BaseEntity
     {
-        public Transaction(string description, decimal value, int month, int year, string userName)
+        public Transaction(string description, decimal value, int month, int year, string userName, TransactionType transactionType)
         {
             Validate(description, value, month, year, userName);
 
@@ -14,6 +15,7 @@ namespace Lepus.API.Domain.Entities
             Month = month;
             Year = year;
             UserName = userName;
+            TransactionType = transactionType;
         }
 
         public string Description { get; private set; }
@@ -25,6 +27,8 @@ namespace Lepus.API.Domain.Entities
         public int Year { get; private set; }
 
         public string UserName { get; private set; }
+
+        public TransactionType TransactionType { get; set; }
 
         public void Validate(string description, decimal value, int month, int year, string userName)
         {

@@ -1,8 +1,11 @@
+using Lepus.API.Application.Middlewares;
+using Lepus.API.Domain.Entities;
 using Lepus.API.Domain.Interfaces;
 using Lepus.API.Infra.Data.Repository;
-using Lepus.API.Service.Middlewares;
 using Lepus.API.Service.Services;
+using Lepus.Domain.Interfaces;
 using Lepus.Infra.Data.Context;
+using Lepus.Infra.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,9 +29,10 @@ namespace Lepus.API
             services.AddControllers();
             services.AddCors();
 
-            services.AddScoped<MongoDbContext>();
-            services.AddScoped<TransactionService>();
-            services.AddScoped<TransactionRepository>(); 
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IBaseRepository<Transaction>, BaseRepository<Transaction>>();
+            services.AddSingleton(typeof(MongoDbContext<>), typeof(MongoDbContext<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +43,7 @@ namespace Lepus.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware)); 
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
 

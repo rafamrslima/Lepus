@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Lepus.API.Service.Middlewares
+namespace Lepus.API.Application.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
