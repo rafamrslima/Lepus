@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { expense } from 'src/app/models/expense';
-import { ExpenseService } from 'src/app/services/expense.service';
 import { BalanceService } from 'src/app/services/balance.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-
+import { TransactionService } from 'src/app/services/transaction.service';
+import { transaction } from 'src/app/models/transaction';
+ 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
@@ -12,7 +12,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 export class ExpensesComponent implements OnInit {
 
-  expenses: expense[];
+  expenses: transaction[];
   userName: string;
   year: string;
   month: string;
@@ -24,9 +24,10 @@ export class ExpensesComponent implements OnInit {
   isEdit: boolean;
   expenseIdOnEditing: string;
 
-  constructor(private expenseService: ExpenseService,
+  constructor(
     private balanceService: BalanceService,
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService,
+    private transactionService: TransactionService) { }
 
   ngOnInit() {
     this.getItems();
@@ -34,7 +35,7 @@ export class ExpensesComponent implements OnInit {
 
   getItems() {
     this.getValuesFromLocalStorage();
-    this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
+    this.transactionService.getTransactions( transactionType.Expense, this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
       this.expenses = expenses;
       this.totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageExpenses(this.totalExpenses);
@@ -58,18 +59,15 @@ export class ExpensesComponent implements OnInit {
       "value": this.valueForm,
       "userName": this.userName,
       "year": parseInt(this.year),
-      "month": parseInt(this.month)
+      "month": parseInt(this.month),
+      "transactionType": transactionType.Expense
     };
 
-    if (this.isEdit) {
-      var description = this.descriptionForm;
-      var value = this.valueForm;
-      this.expenseService.updateExpense(this.expenseIdOnEditing, expense).subscribe(() => { this.showForm = false; this.getItems() });
-
-    } else {
-      this.expenseService.saveExpense(expense).subscribe(() => { this.showForm = false; this.getItems() });
-    }
-
+    if (this.isEdit)
+      this.transactionService.updateTransaction(this.expenseIdOnEditing, expense).subscribe(() => { this.showForm = false; this.getItems() });
+    else
+      this.transactionService.saveTransaction(expense).subscribe(() => { this.showForm = false; this.getItems() });
+ 
     this.descriptionForm = '';
     this.valueForm = 0;
   }
@@ -87,6 +85,6 @@ export class ExpensesComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    this.expenseService.deleteExpense(id).subscribe(() => this.getItems());
+    this.transactionService.deleteTransaction(id).subscribe(() => this.getItems());
   }
 }

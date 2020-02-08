@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ExpenseService } from './services/expense.service';
-import { IncomeService } from './services/income.service';
+import { Component } from '@angular/core';
+import { TransactionService } from './services/transaction.service';
 import { BalanceService } from './services/balance.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-root',
@@ -20,9 +18,9 @@ export class AppComponent {
   beautiUserName: string;
   title = 'LepusAPP';
 
-  constructor(private incomeService: IncomeService,
-    private expenseService: ExpenseService,
+  constructor( 
     private balanceService: BalanceService,
+    private transactionService: TransactionService,
     private localStorageService: LocalStorageService,
     private router: Router) { }
 
@@ -45,14 +43,14 @@ export class AppComponent {
   }
 
   getIncomes() {
-    this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
+    this.transactionService.getTransactions(transactionType.Income, this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       var totalIncomes = incomes.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageIncomes(totalIncomes);
     });
   }
 
   getExpenses() {
-    this.expenseService.getExpenses(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
+    this.transactionService.getTransactions(transactionType.Expense, this.userName, parseInt(this.year), parseInt(this.month)).subscribe(expenses => {
       var totalExpenses = expenses.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageExpenses(totalExpenses);
     });

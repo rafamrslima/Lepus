@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, Input } from '@angular/core';
-import { income } from 'src/app/models/income';
-import { IncomeService } from 'src/app/services/income.service';
+import { TransactionService } from 'src/app/services/transaction.service';
 import { BalanceService } from 'src/app/services/balance.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-
+import { transaction } from 'src/app/models/transaction';
+ 
 @Component({
   selector: 'app-incomes',
   templateUrl: './incomes.component.html',
@@ -12,7 +12,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 export class IncomesComponent implements OnInit {
 
-  incomes: income[];
+  incomes: transaction[];
   userName: string;
   year: string;
   month: string;
@@ -23,7 +23,7 @@ export class IncomesComponent implements OnInit {
   descriptionForm: string;
   valueForm: number;
 
-  constructor(private incomeService: IncomeService,
+  constructor(private transactionService: TransactionService,
     private balanceService: BalanceService,
     private localStorageService: LocalStorageService) { }
 
@@ -33,7 +33,7 @@ export class IncomesComponent implements OnInit {
 
   getItems() {
     this.getValuesFromLocalStorage();
-    this.incomeService.getIncomes(this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
+    this.transactionService.getTransactions(transactionType.Income, this.userName, parseInt(this.year), parseInt(this.month)).subscribe(incomes => {
       this.incomes = incomes;
       this.totalIncomes = incomes.reduce((prev, curr) => prev += curr.value, 0);
       this.balanceService.changeMessageIncomes(this.totalIncomes);
@@ -57,14 +57,15 @@ export class IncomesComponent implements OnInit {
       "value": this.valueForm,
       "userName": this.userName,
       "year": parseInt(this.year),
-      "month": parseInt(this.month)
+      "month": parseInt(this.month),
+      "transactionType": transactionType.Income
     }
 
     if (this.isEdit) {
-      this.incomeService.updateIncome(this.incomeIdOnEditing, income).subscribe(() => { this.showForm = false; this.getItems() });
+      this.transactionService.updateTransaction(this.incomeIdOnEditing, income).subscribe(() => { this.showForm = false; this.getItems() });
 
     } else {
-      this.incomeService.saveIncome(income).subscribe(() => { this.showForm = false; this.getItems() });
+      this.transactionService.saveTransaction(income).subscribe(() => { this.showForm = false; this.getItems() });
     }
 
     this.valueForm = 0;
@@ -84,6 +85,6 @@ export class IncomesComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    this.incomeService.deleteIncome(id).subscribe(() => this.getItems());
+    this.transactionService.deleteTransaction(id).subscribe(() => this.getItems());
   }
 }

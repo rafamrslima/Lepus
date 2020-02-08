@@ -6,9 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
-import { ExpenseService } from './services/expense.service';
-import { IncomeService } from './services/income.service';
 import { BalanceService } from './services/balance.service';
+import { TransactionService } from './services/transaction.service';
 import { NavComponent } from './components/nav/nav.component';
 import { ExpensesComponent } from './components/expenses/expenses.component';
 import { IncomesComponent } from './components/incomes/incomes.component';
@@ -36,7 +35,7 @@ import { UserComponent } from './components/user/user.component';
     FormsModule,
     ChartsModule
   ],
-  providers: [ExpenseService, IncomeService, BalanceService],
+  providers: [BalanceService, TransactionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

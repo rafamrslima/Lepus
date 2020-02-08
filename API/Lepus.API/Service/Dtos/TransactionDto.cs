@@ -1,4 +1,6 @@
-﻿namespace Lepus.API.Service.Dtos
+﻿using Lepus.API.Domain.Enums;
+
+namespace Lepus.API.Service.Dtos
 {
     public class TransactionDto
     {
@@ -11,5 +13,7 @@
         public int Year { get; set; }
 
         public string UserName { get; set; }
+
+        public TransactionType TransactionType { get; set; }
     }
 }

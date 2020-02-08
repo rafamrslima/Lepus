@@ -14,6 +14,6 @@ namespace Lepus.API.Domain.Interfaces
 
         Task Delete(string id);
 
-        Task Post(TransactionDto transactionDto, TransactionType transactionType);
+        Task Post(TransactionDto transactionDto);
     }
 }

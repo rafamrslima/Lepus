@@ -21,9 +21,11 @@ namespace Lepus.API.Service.Services
             return await _transactionRepository.Select(userName, year, month, transactionType);
         }
 
-        public async Task Post(TransactionDto transactionDto, TransactionType transactionType)
+        public async Task Post(TransactionDto transactionDto)
         {
-            var transaction = new Transaction(transactionDto.Description, transactionDto.Value, transactionDto.Month, transactionDto.Year, transactionDto.UserName, transactionType);
+            var transaction = new Transaction(transactionDto.Description, transactionDto.Value, transactionDto.Month, 
+                                                transactionDto.Year, transactionDto.UserName, transactionDto.TransactionType);
+
             await _transactionRepository.Insert(transaction);
         }
 
